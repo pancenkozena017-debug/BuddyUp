@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BuddyUp - Платформа для студентів</title>
+    <link href="css/style.css" rel="stylesheet">
+
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">
+                        🍺
+                        <div class="logo-pulse"></div>
+                    </div>
+                    <div class="logo-text">
+                        <span class="logo-buddy">Buddy</span><span class="logo-up">Up</span>
+                    </div>
+                </div>
+
+                <nav id="navbar">
+                    <a href="#features">Фічі</a>
+                    <a href="#profiles">Профілі</a>
+                    <a href="#map">Карта</a>
+                    <a href="../login/login.html"><button class="button button-outline">Увійти</button></a>
+                    <button class="button button-primary">Почати</button>
+                </nav>
+
+                <button class="menu-toggle" id="menuToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-grid"></div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="speech-bubble">
+                    "D'oh! Де всі студенти? 🍺"
+                </div>
+
+                <h1>
+                    <span class="text-primary glitch">Знайди</span> <span class="text-secondary">компанію</span>
+                    <br>
+                    <span class="text-primary">для вечірки!</span>
+                </h1>
+
+                <p class="hero-desc">
+                    Мобільна платформа для студентів, де можна швидко знайти друзів у гуртожитку, компанію для відпочинку або когось, з ким піти випити пива 🍺
+                </p>
+
+                <div class="hero-buttons">
+                    <button class="button button-primary button-lg">
+                        👥 Почати зараз
+                    </button>
+                    <button class="button button-outline button-lg">
+                        📍 Переглянути карту
+                    </button>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number primary">500+</div>
+                        <div class="stat-label">Активних студентів</div>
+                    </div>
+                    <div class="stat-card secondary">
+                        <div class="stat-number secondary">50+</div>
+                        <div class="stat-label">Барів і закладів</div>
+                    </div>
+                    <div class="stat-card accent">
+                        <div class="stat-number accent">1000+</div>
+                        <div class="stat-label">Успішних тусовок</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES SECTION -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-title">
+                <h2><span class="text-primary">Чому</span> BuddyUp?</h2>
+                <p class="section-subtitle">
+                    Платформа спеціально для студентів. Менше стороннього контенту – тільки те, що цікаво тобі.
+                </p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📍</div>
+                    <h3>Геолокація</h3>
+                    <p>Знаходь людей поруч у своєму гуртожитку або факультеті</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👉👈</div>
+                    <h3>Swipe-система</h3>
+                    <p>Гортай профілі як у Tinder і знаходь компанію для відпочинку</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🍺</div>
+                    <h3>Бари поруч</h3>
+                    <p>Карта з усіма барами, пабами та закладами біля твого гуртожитку</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Безпечно</h3>
+                    <p>Тільки верифіковані студенти - ніяких підозрілих типів</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">✨</div>
+                    <h3>Події</h3>
+                    <p>Створюй та приєднуйся до студентських вечірок і зустрічей</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Миттєво</h3>
+                    <p>Швидке підключення та спілкування без зайвих кроків</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROFILES SECTION -->
+    <section class="profiles" id="profiles">
+        <div class="container">
+            <div class="section-title">
+                <h2><span class="text-secondary">Свайпай</span> і знаходь друзів!</h2>
+                <p class="section-subtitle">
+                    Тисячи студентів вже тут. Знайди свою компанію для вечірки або просто випити пива
+                </p>
+            </div>
+
+            <div class="profile-card">
+                <img id="profileImage" src="/placeholder.svg?height=384&width=400" alt="Профіль" class="profile-image">
+                <div style="position: relative;">
+                    <span class="profile-badge" id="profileDistance">0.5 км</span>
+                </div>
+                <div class="profile-info">
+                    <div class="profile-header">
+                        <div class="profile-name" id="profileName">Олег, 20</div>
+                        <div class="profile-uni" id="profileUni">КПІ</div>
+                    </div>
+
+                    <div class="profile-quote" id="profileQuote">
+                        "Get in the robot, Shinji! А краще ходімо в бар 🍺"
+                    </div>
+
+                    <div class="profile-tags" id="profileTags">
+                        <span class="tag">Пиво</span>
+                        <span class="tag">Аніме</span>
+                        <span class="tag">Програмування</span>
+                    </div>
+
+                    <div class="profile-buttons">
+                        <button class="button button-reject button-lg" onclick="nextProfile()">✕ Пропустити</button>
+                        <button class="button button-like button-lg" onclick="nextProfile()">❤️ Лайк</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="easter-egg">
+                <div class="easter-egg-emoji">🍺</div>
+                <div class="easter-egg-text">
+                    <div class="easter-egg-author">Rei Ayanami каже:</div>
+                    <div class="easter-egg-quote">
+                        "Зв'язок між людьми... можливий через пиво. Third Impact відкладається, йдемо в бар!"
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAP SECTION -->
+    <section class="map" id="map">
+        <div class="container">
+            <div class="section-title">
+                <h2><span class="text-primary">Карта</span> твоїх тусовок</h2>
+                <p class="section-subtitle">
+                    Вбудована карта зі всіма гуртожитками та закладами поблизу. Бачи хто де і скільки людей
+                </p>
+            </div>
+
+            <div class="map-container">
+                <div class="map-visual">
+                    <div class="map-grid"></div>
+                    
+                    <!-- Markers -->
+                    <div class="map-marker" style="left: 30%; top: 40%;">
+                        <div class="marker-circle marker-dorm">
+                            📍
+                            <span class="marker-badge">45</span>
+                        </div>
+                    </div>
+                    <div class="map-marker" style="left: 70%; top: 30%;">
+                        <div class="marker-circle marker-dorm">
+                            📍
+                            <span class="marker-badge">38</span>
+                        </div>
+                    </div>
+                    <div class="map-marker" style="left: 50%; top: 60%;">
+                        <div class="marker-circle marker-bar">
+                            🍺
+                            <span class="marker-badge">12</span>
+                        </div>
+                    </div>
+                    <div class="map-marker" style="left: 45%; top: 25%;">
+                        <div class="marker-circle marker-bar">
+                            🍺
+                            <span class="marker-badge">8</span>
+                        </div>
+                    </div>
+                    <div class="map-marker" style="left: 65%; top: 70%;">
+                        <div class="marker-circle marker-bar">
+                            🍺
+                            <span class="marker-badge">15</span>
+                        </div>
+                    </div>
+
+                    <!-- You are here -->
+                    <div class="map-marker" style="left: 50%; top: 50%;">
+                        <div class="marker-circle marker-you">
+                            👤
+                        </div>
+                        <div class="profile-badge" style="position: absolute; bottom: -35px; left: 50%; transform: translateX(-50%);">
+                            Ти тут!
+                        </div>
+                    </div>
+                </div>
+
+                <div class="map-legend">
+                    <div class="legend-item">
+                        <div class="legend-icon" style="background: var(--primary);">📍</div>
+                        <span>Гуртожитки</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-icon" style="background: var(--secondary);">🍺</div>
+                        <span>Бари та заклади</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-icon" style="background: var(--accent);">👤</div>
+                        <span>Твоя локація</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="homer-comment">
+                <div class="homer-emoji">🍩</div>
+                <div class="homer-text">
+                    <div class="homer-author">Homer Simpson каже:</div>
+                    <div class="homer-quote">
+                        "Mmmm... beer map... 🍺 Це найкраща карта яку я бачив після карти пончикових!"
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA SECTION -->
+    <section class="cta">
+        <div class="cta-grid"></div>
+        <div class="container">
+            <div class="cta-card">
+                <div class="cta-badge">⚡ BETA-ВЕРСІЯ ДОСТУПНА! ⚡</div>
+
+                <h2>Готовий до <span class="text-primary">тусовок?</span></h2>
+
+                <p class="cta-desc">
+                    Завантаж BuddyUp і знайди компанію для відпочинку вже сьогодні. Тисячи студентів вже з нами!
+                </p>
+
+                <div class="cta-buttons">
+                    <button class="button button-primary button-lg">
+                        📱 Відкрити веб-версію
+                    </button>
+                    <button class="button button-outline button-lg">
+                        ⬇️ Завантажити на iOS
+                    </button>
+                </div>
+
+                <p class="cta-footnote">Android-версія скоро буде доступна 🚀</p>
+
+                <div class="cta-divider">
+                    <div class="quotes-grid">
+                        <div class="quote-box accent">
+                            <div class="quote-author accent">Asuka каже:</div>
+                            <div class="quote-text">"Anta baka?! Ще не завантажив BuddyUp? 🙄"</div>
+                        </div>
+                        <div class="quote-box">
+                            <div class="quote-author">Shinji думає:</div>
+                            <div class="quote-text">"Може спочатку подивимось хто онлайн?.."</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <div class="footer-logo-icon">🍺</div>
+                        <span class="footer-logo-text">
+                            <span class="footer-logo-buddy">Buddy</span><span class="footer-logo-up">Up</span>
+                        </span>
+                    </div>
+                    <p class="footer-desc">
+                        Мобільна платформа для студентів, де можна швидко знайти друзів, компанію для відпочинку або когось, з ким випити пива. Легко, безпечно та весело! 🍺
+                    </p>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Навігація</h3>
+                    <div class="footer-links">
+                        <a href="#features">Фічі</a>
+                        <a href="#profiles">Профілі</a>
+                        <a href="#map">Карта</a>
+                        <a href="#">Про нас</a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Соцмережі</h3>
+                    <div class="footer-socials">
+                        <a href="#" class="social-link">📷</a>
+                        <a href="#" class="social-link">𝕏</a>
+                        <a href="#" class="social-link">🐙</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p class="footer-copyright">© 2025 BuddyUp. Студентський проект. Пий відповідально! 🍺</p>
+                <div class="footer-links-bottom">
+                    <a href="#">Політика конфіденційності</a>
+                    <a href="#">Умови використання</a>
+                </div>
+            </div>
+
+            <div class="footer-easter">
+                "Congratulations! 🎉" - Evangelion ending
+            </div>
+        </div>
+    </footer>
+    <script src="js/script.js" defer></script>
+</body>
+</html>

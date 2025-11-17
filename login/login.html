@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <title>Вхід - Student Drinking App</title>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Вхід</h1>
+        
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Пароль</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            
+            <button type="submit" class="btn">Увійти</button>
+        </form>
+        
+        <div class="divider">або</div>
+        
+        <div class="social-buttons">
+            <button class="social-btn" onclick="alert('Google вхід')">Google</button>
+            <button class="social-btn" onclick="alert('GitHub вхід')">GitHub</button>
+        </div>
+        
+        <div class="link-text">
+            Немає акаунту? <a href="../signup/signup.html">Зареєструватися</a>
+        </div>
+    </div>
+    <script src="js/script.js" defer></script>
+
+</body>
+</html>
