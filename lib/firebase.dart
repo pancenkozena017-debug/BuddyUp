@@ -34,7 +34,7 @@ class FirebaseService {
     return FirebaseService._(app, auth, database);
   }
 
-  Future<Map<String, dynamic>> registerUser(//рейтинг
+  Future<Map<String, dynamic>> registerUser(
     String email,
     String password,
     String name,
@@ -52,9 +52,9 @@ class FirebaseService {
       var ref = database.reference();
       var usersRef = ref.child('users');
       final user = userCredential.user!;
+      var userRef = usersRef.child(user.uid);
 
-      var newUserRef = usersRef.push();
-      await newUserRef.set({
+      await userRef.set({
         'id': user.uid,
         'name': name,
         'email': email,
@@ -87,7 +87,7 @@ class FirebaseService {
     }
   }
 
-  Future<Map<String, dynamic>> getUser(String uid) async {//
+  Future<Map<String, dynamic>> getUser(String uid) async {
     try {
       final ref = database.reference().child('users').child(uid);
       final snapshot = await ref.once();
@@ -103,4 +103,5 @@ class FirebaseService {
       return {'error': e.toString()};
     }
   }
+
 }
