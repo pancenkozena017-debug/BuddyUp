@@ -90,9 +90,9 @@ class FirebaseService {
   Future<Map<String, dynamic>> getUser(String uid) async {
     try {
       final ref = database.reference().child('users').child(uid);
-      final snapshot = await ref.once();
+      final snapshot = await ref.get();
 
-      if (snapshot.value == null) {
+      if (snapshot == null) {
         throw ("There is no user");
       }
 
@@ -104,4 +104,19 @@ class FirebaseService {
     }
   }
 
+  Future<List<Map<String, dynamic>>> getUsers() async {
+    final ref = database.reference().child('users');
+    final snapshot = await ref.get();
+    if (snapshot == null) {
+      throw Exception("There are no users");
+    }
+
+    final rawData = snapshot as Map<dynamic, dynamic>;
+
+    final users = rawData.values.map((user) {
+      return Map<String, dynamic>.from(user as Map);
+    }).toList();
+
+    return users;
+  }
 }

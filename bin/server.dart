@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:buddy_up/firebase.dart';
 import 'package:buddy_up/get/get_user.dart';
+import 'package:buddy_up/get/get_users.dart';
 import 'package:buddy_up/post/post_log_in.dart';
 import 'package:buddy_up/post/post_register.dart';
 import 'package:buddy_up/server.dart';
@@ -21,7 +22,7 @@ void main() async {
   await register(firebaseService);
   await login(firebaseService);
   await get_user(firebaseService);
-  
+  await get_users(firebaseService);
 
   final handler = const Pipeline().addMiddleware(logRequests()).addHandler(app);
 
