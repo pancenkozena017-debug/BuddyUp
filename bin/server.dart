@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:buddy_up/firebase.dart';
 import 'package:buddy_up/get/get_likes.dart';
 import 'package:buddy_up/get/get_matches.dart';
@@ -9,7 +10,7 @@ import 'package:buddy_up/post/post_log_in.dart';
 import 'package:buddy_up/post/post_register.dart';
 import 'package:buddy_up/server.dart';
 import 'package:shelf/shelf.dart';
-import 'package:shelf/shelf_io.dart' as io;
+import 'package:shelf/shelf_io.dart';
 
 void main() async {
   final firebaseService = await FirebaseService.initialize();
@@ -28,8 +29,13 @@ void main() async {
   await sendLike(firebaseService);
   await get_likes(firebaseService);
   await get_matches(firebaseService);
-  final handler = const Pipeline().addMiddleware(logRequests()).addHandler(app);
+  final handler = (Request request) {
+    return Response.ok('Server is alive');
+  };
+  // Railway надає порт через змінну середовища
+  final port = int.parse(Platform.environment['PORT'] ?? '8080');
 
-  final server = await io.serve(handler, 'localhost', 8080);
+  final server = await serve(handler, InternetAddress.anyIPv4, port);
+  print('Server running on http://localhost:$port');
   print('✅ Server running on http://${server.address.host}:${server.port}');
 }
