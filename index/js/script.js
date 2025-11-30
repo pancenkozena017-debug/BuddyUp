@@ -1,6 +1,6 @@
 
         // Profiles data
-        const profiles = [
+        const profiles =[
             {
                 name: "Олег",
                 age: 20,
