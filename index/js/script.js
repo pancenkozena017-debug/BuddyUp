@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
         card.querySelector('.button-reject').addEventListener('click', () => handleButtonClick('reject'));
     }
 
-    // Створюємо шаблон картки для клонування
+    // Створюємо шаблон картки  для клонування
     const initialCard = document.querySelector('.profile-card');
     const cardTemplate = initialCard.cloneNode(true);
     cardTemplate.classList.remove('profile-card');
