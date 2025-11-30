@@ -7,10 +7,14 @@ import 'package:buddy_up/server.dart';
 Future<void> get_likes(FirebaseService firebaseService) async {
   app.get('/get_likes', (Request req) async {
     try {
-      final payload = await req.readAsString();
-      final data = jsonDecode(payload);
-
-      final uid = data['uid'];
+      final uid = req.url.queryParameters['uid'];
+      if (uid == null) {
+        return Response(
+          400,
+          body: jsonEncode({'error': 'Missing uid'}),
+          headers: {'Content-Type': 'application/json'},
+        );
+      }
       final likes = await firebaseService.getLikedFromUsers(uid);
       final ids = likes.map((e) => e['from'].toString()).toList();
       final result = await firebaseService.getUsers(ids);
