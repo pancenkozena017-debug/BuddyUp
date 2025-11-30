@@ -1,4 +1,4 @@
-import 'package:buddy_up/keys.dart';
+// import 'package:buddy_up/keys.dart';
 import 'package:dotenv/dotenv.dart';
 import 'package:firebase_dart/auth.dart';
 import 'package:firebase_dart/core.dart';
