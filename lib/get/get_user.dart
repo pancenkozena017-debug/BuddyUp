@@ -7,10 +7,14 @@ import 'package:buddy_up/server.dart';
 Future<void> get_user(FirebaseService firebaseService) async {
   app.get('/get_user', (Request req) async {
     try {
-      final payload = await req.readAsString();
-      final data = jsonDecode(payload);
-
-      final uid = data['uid'];
+      final uid = req.url.queryParameters['uid'];
+      if (uid == null) {
+        return Response(
+          400,
+          body: jsonEncode({'error': 'Missing uid'}),
+          headers: {'Content-Type': 'application/json'},
+        );
+      }
 
       final result = await firebaseService.getUser(uid);
 
