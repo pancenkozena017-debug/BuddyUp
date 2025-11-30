@@ -4,10 +4,16 @@ import 'package:buddy_up/firebase.dart';
 import 'package:shelf/shelf.dart';
 import 'package:buddy_up/server.dart';
 
-Future<void> get_users(FirebaseService firebaseService) async {
-  app.get('/get_users', (Request req) async {
+Future<void> sendLike(FirebaseService firebaseService) async{
+  app.post('/sendLike', (Request req) async {
     try {
-      final result = await firebaseService.getAllUsers();
+      final payload = await req.readAsString();
+      final data = jsonDecode(payload);
+
+      final to = data['to'];
+      final from = data['from'];
+
+      final result = await firebaseService.sendLikeToUser(to, from);
 
       return Response.ok(
         jsonEncode(result),

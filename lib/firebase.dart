@@ -1,4 +1,5 @@
 import 'package:buddy_up/keys.dart';
+import 'package:dotenv/dotenv.dart';
 import 'package:firebase_dart/auth.dart';
 import 'package:firebase_dart/core.dart';
 import 'package:firebase_dart/database.dart';
@@ -13,7 +14,13 @@ class FirebaseService {
 
   static Future<FirebaseService> initialize() async {
     FirebaseDart.setup();
+    var env = DotEnv(includePlatformEnvironment: true)..load();
 
+    final APIKEY = env['APIKEY']!;
+    final PROJECTID = env['PROJECTID']!;
+    final APPID = env['APPID']!;
+    final MESSAGINGSenderID = env['MESSAGINGSenderID']!;
+    final AUTHDOMAIN = env["AUTHDOMAIN"]!;
     var options = FirebaseOptions(
       appId: APPID,
       apiKey: APIKEY,
@@ -104,7 +111,7 @@ class FirebaseService {
     }
   }
 
-  Future<List<Map<String, dynamic>>> getUsers() async {
+  Future<List<Map<String, dynamic>>> getAllUsers() async {
     final ref = database.reference().child('users');
     final snapshot = await ref.get();
     if (snapshot == null) {
@@ -118,5 +125,99 @@ class FirebaseService {
     }).toList();
 
     return users;
+  }
+
+  Future<List<Map<String, dynamic>>> getUsers(List<String> ids) async {
+    final ref = database.reference().child('users');
+    final snapshot = await ref.get();
+
+    if (snapshot == null) {
+      throw Exception("There are no users");
+    }
+
+    final rawData = Map<dynamic, dynamic>.from(snapshot as Map);
+
+    final users = rawData.entries
+        .where((entry) => ids.contains(entry.key.toString()))
+        .map((entry) {
+          final userMap = Map<dynamic, dynamic>.from(entry.value as Map);
+          userMap['uid'] = entry.key.toString();
+          return Map<String, dynamic>.from(userMap);
+        })
+        .toList();
+
+    return users;
+  }
+
+  Future<Map<String, dynamic>> sendLikeToUser(
+    String fromUid,
+    String toUid,
+  ) async {
+    try {
+      final likeRef = database.reference().child('likes/$toUid/$fromUid');
+      final now = DateTime.now().toString();
+
+      await likeRef.set({'timestamp': now});
+
+      final reverseRef = database.reference().child('likes/$fromUid/$toUid');
+      final reverseSnapshot = await reverseRef.get();
+
+      if (reverseSnapshot != null) {
+        final matchRef1 = database.reference().child('matches/$fromUid/$toUid');
+        final matchRef2 = database.reference().child('matches/$toUid/$fromUid');
+
+        await matchRef1.set({'with': toUid, 'timestamp': now});
+        await matchRef2.set({'with': fromUid, 'timestamp': now});
+
+        await database.reference().child('likes/$fromUid/$toUid').remove();
+        await database.reference().child('likes/$toUid/$fromUid').remove();
+
+        return {'statusCode': '200', 'status': 'match_created'};
+      }
+
+      return {'statusCode': '200', 'status': 'liked'};
+    } catch (e) {
+      return {'statusCode': '400', 'status': 'bad', 'error': e.toString()};
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getLikedFromUsers(String uid) async {
+    // це не працює
+    final ref = database.reference().child('likes/$uid');
+    final snapshot = await ref.get();
+
+    if (snapshot == null) {
+      return [];
+    }
+    print(snapshot);
+    final rawData = Map<dynamic, dynamic>.from(snapshot as Map);
+    print(rawData);
+    final likeObj = Map<String, dynamic>.from(snapshot);
+
+    print(likeObj);
+    print(
+      likeObj,
+    ); //виводить це {from: gKgkipxPSjXeoWtJFzwFllpWnbJ3, timestamp: 2025-11-27T20:59:32.979723, to: Yy0Nfa87qlWNmxdTiMpfClJ6iOT2}
+    return [likeObj];
+  }
+
+  Future<List<Map<String, dynamic>>> getMatch(String uid) async {
+    final ref = database.reference().child('matches/$uid');
+    final snapshot = await ref.get();
+
+    if (snapshot == null) {
+      return [];
+    }
+
+    final rawData = Map<dynamic, dynamic>.from(snapshot as Map);
+
+    final matches = rawData.entries.map((entry) {
+      final fromUid = entry.key.toString();
+      final data = entry.value as Map<dynamic, dynamic>;
+
+      return {'with': fromUid, 'timestamp': data['timestamp'] ?? ''};
+    }).toList();
+
+    return matches;
   }
 }

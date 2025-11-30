@@ -11,6 +11,8 @@ dependencies:
   firebase_dart: ^1.5.3
   shelf: ^1.4.2
   shelf_router: ^1.1.4
+  dotenv: ^4.2.0
+
 
 dev_dependencies:
   lints: ^5.0.0

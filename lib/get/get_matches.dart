@@ -4,10 +4,14 @@ import 'package:buddy_up/firebase.dart';
 import 'package:shelf/shelf.dart';
 import 'package:buddy_up/server.dart';
 
-Future<void> get_users(FirebaseService firebaseService) async {
-  app.get('/get_users', (Request req) async {
+Future<void> get_matches(FirebaseService firebaseService) async {
+  app.get('/get_matches', (Request req) async {
     try {
-      final result = await firebaseService.getAllUsers();
+      final payload = await req.readAsString();
+      final data = jsonDecode(payload);
+
+      final uid = data['uid'];
+      final result = await firebaseService.getMatch(uid);
 
       return Response.ok(
         jsonEncode(result),
