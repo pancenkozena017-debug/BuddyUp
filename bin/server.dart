@@ -29,9 +29,7 @@ void main() async {
   await sendLike(firebaseService);
   await get_likes(firebaseService);
   await get_matches(firebaseService);
-  final handler = (Request request) {
-    return Response.ok('Server is alive');
-  };
+  final handler = Pipeline().addMiddleware(logRequests()).addHandler(app);
   // Railway надає порт через змінну середовища
   final port = int.parse(Platform.environment['PORT'] ?? '8080');
 
