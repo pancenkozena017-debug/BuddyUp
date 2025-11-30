@@ -103,7 +103,7 @@ class FirebaseService {
         throw ("There is no user");
       }
 
-      final userData = Map<String, dynamic>.from(snapshot.value as Map);
+      final userData = Map<String, dynamic>.from(snapshot as Map);
 
       return userData;
     } catch (e) {
