@@ -1,2 +1,1 @@
-A sample command-line application with an entrypoint in `bin/`, library code
-in `lib/`, and example unit test in `test/`.
+I accidentally installed Scrum-35 right away in the backend, but it's not a problem, I tested it and everything is fine :)
