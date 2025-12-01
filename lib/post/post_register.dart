@@ -14,7 +14,7 @@ Future<void> register(FirebaseService firebaseService) async {
       final phone = req.url.queryParameters['phone'];
       final birthday = req.url.queryParameters['birthday'];
       final telegramUsername = req.url.queryParameters['telegramUsername'];
-      final photo = req.url.queryParameters['photo'];
+      final photo = req.url.queryParameters['photo']??'aboba';
 
       final missing = <String>[];
       if (email == null) missing.add('email');
@@ -24,7 +24,6 @@ Future<void> register(FirebaseService firebaseService) async {
       if (phone == null) missing.add('phone');
       if (birthday == null) missing.add('birthday');
       if (telegramUsername == null) missing.add('telegramUsername');
-      if (photo == null) missing.add('photo');
 
       if (missing.isNotEmpty) {
         return Response(
@@ -42,7 +41,7 @@ Future<void> register(FirebaseService firebaseService) async {
         phone!,
         telegramUsername!,
         birthday!,
-        photo!,
+        photo,
       );
 
       return Response.ok(

@@ -53,14 +53,19 @@ class FirebaseService {
     String birthday,
     String photo,
   ) async {
-    final userCredential = await auth.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
+    print(
+      "📥 registerUser called with email=$email, name=$name, surname=$surname",
     );
     try {
+      final userCredential = await auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      final user = userCredential.user!;
+      print("✅ User created in Firebase Auth: uid=${user.uid}");
+
       var ref = database.reference();
       var usersRef = ref.child('users');
-      final user = userCredential.user!;
       var userRef = usersRef.child(user.uid);
 
       await userRef.set({
@@ -75,9 +80,11 @@ class FirebaseService {
         'rating': 0,
       });
 
+      print("💾 User data saved in Realtime Database: uid=${user.uid}");
       return {'statusCode': '200', 'status': 'ok', 'uid': user.uid};
     } catch (ex) {
-      return {'statusCode': '400', 'status': 'bad', 'error': ex};
+      print("❌ registerUser error: $ex");
+      return {'statusCode': '400', 'status': 'bad', 'error': ex.toString()};
     }
   }
 
