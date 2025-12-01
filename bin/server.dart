@@ -11,6 +11,26 @@ import 'package:buddy_up/post/post_register.dart';
 import 'package:buddy_up/server.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart';
+Middleware corsMiddleware() {
+  return (Handler handler) {
+    return (Request req) async {
+      // Якщо це preflight (OPTIONS) — одразу дозволяємо
+      if (req.method == 'OPTIONS') {
+        return Response.ok('', headers: _corsHeaders);
+      }
+
+      // Інакше — обробляємо і додаємо CORS headers у відповідь
+      final response = await handler(req);
+      return response.change(headers: _corsHeaders);
+    };
+  };
+}
+
+const _corsHeaders = {
+  'Access-Control-Allow-Origin': '*', // або заміни на свій домен фронтенду
+  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+  'Access-Control-Allow-Headers': 'Origin, Content-Type, Accept, Authorization',
+};
 
 void main() async {
   final firebaseService = await FirebaseService.initialize();
@@ -29,7 +49,7 @@ void main() async {
   await sendLike(firebaseService);
   await get_likes(firebaseService);
   await get_matches(firebaseService);
-  final handler = Pipeline().addMiddleware(logRequests()).addHandler(app);
+  final handler = Pipeline().addMiddleware(corsMiddleware()).addHandler(app);
   // Railway надає порт через змінну середовища
   final port = int.parse(Platform.environment['PORT'] ?? '8080');
 
