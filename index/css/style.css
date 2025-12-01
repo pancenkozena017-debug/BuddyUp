@@ -26,7 +26,52 @@
     --transition: 0.3s ease;
 }
 
-body {
+/* ==================================== */
+/* SWIPE MECHANICS CSS */
+/* ==================================== */
+
+/* Основні стилі картки */
+.profile-card {
+    /* Робить картку готовою до перетягування */
+    position: relative; 
+    cursor: grab; /* Курсор "тягни" */
+    
+    /* Додаємо плавний перехід для трансформацій та прозорості. 
+       Використовуємо функцію кубічного Безьє для "пружного" ефекту при поверненні. */
+    transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55), 
+                opacity 0.5s ease-out;
+    
+    /* Оптимізація для апаратного прискорення анімації */
+    will-change: transform, opacity; 
+}
+
+/* Стан, коли користувач активно тягне картку */
+.profile-card.is-dragging {
+    /* Ключовий момент: вимикаємо перехід, щоб картка миттєво слідувала за курсором/пальцем */
+    transition: none;
+    cursor: grabbing; /* Курсор "тягну" */
+}
+
+/* Стан "Лайк" (картка відлітає праворуч) */
+.profile-card.swipe-like {
+    /* Зміщуємо далеко праворуч (1000px), повертаємо та робимо прозорою */
+    transform: translateX(1000px) rotate(30deg) scale(0.1);
+    opacity: 0;
+}
+
+/* Стан "Пропустити" (картка відлітає ліворуч) */
+.profile-card.swipe-reject {
+    /* Зміщуємо далеко ліворуч, повертаємо у протилежний бік та робимо прозорою */
+    transform: translateX(-1000px) rotate(-30deg) scale(0.1);
+    opacity: 0;
+}
+
+/* Стиль для шаблону картки, який використовується для клонування, має бути прихований */
+.profile-card-template {
+    display: none !important;
+}
+
+body{
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
     background: var(--bg-light);
     color: var(--text-light);

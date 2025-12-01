@@ -28,6 +28,9 @@ document.getElementById('signupForm').addEventListener('submit', function(e) {
         password: document.getElementById('password').value,
         name: document.getElementById('name').value,
         surname: document.getElementById('surname').value,
+        // НОВЕ ПОЛЕ: Дата народження
+        dateOfBirth: document.getElementById('dateOfBirth').value,
+        // КІНЕЦЬ НОВОГО ПОЛЯ
         phoneNumber: document.getElementById('phoneNumber').value,
         telegramUsername: document.getElementById('telegramUsername').value,
         photo: document.getElementById('photo').files[0] 
