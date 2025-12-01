@@ -28,6 +28,7 @@ class FirebaseService {
       messagingSenderId: MESSAGINGSenderID,
       authDomain: AUTHDOMAIN,
     );
+    print("Firebase options loaded: apiKey=$APIKEY, projectId=$PROJECTID");
 
     var app = await Firebase.initializeApp(options: options);
 
@@ -37,6 +38,7 @@ class FirebaseService {
       databaseURL:
           "https://alco-tinder-default-rtdb.europe-west1.firebasedatabase.app/",
     );
+    print("🔥 Firebase initialized successfully");
 
     return FirebaseService._(app, auth, database);
   }
@@ -80,17 +82,18 @@ class FirebaseService {
   }
 
   Future<Map<String, dynamic>> loginUser(String email, String password) async {
+    print("📥 loginUser called with email=$email");
     try {
       final userCredential = await auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
-
       final user = userCredential.user!;
-
+      print("✅ User logged in successfully: uid=${user.uid}");
       return {'statusCode': '200', 'status': 'ok', 'uid': user.uid};
     } catch (ex) {
-      return {'statusCode': '400', 'status': 'bad', 'error': ex};
+      print("❌ loginUser error: $ex");
+      return {'statusCode': '400', 'status': 'bad', 'error': ex.toString()};
     }
   }
 
