@@ -192,7 +192,6 @@ class FirebaseService {
   }
 
   Future<List<Map<String, dynamic>>> getLikedFromUsers(String uid) async {
-    // це не працює
     final ref = database.reference().child('likes/$uid');
     final snapshot = await ref.get();
 
@@ -207,7 +206,7 @@ class FirebaseService {
     print(likeObj);
     print(
       likeObj,
-    ); //виводить це {from: gKgkipxPSjXeoWtJFzwFllpWnbJ3, timestamp: 2025-11-27T20:59:32.979723, to: Yy0Nfa87qlWNmxdTiMpfClJ6iOT2}
+    ); 
     return [likeObj];
   }
 
@@ -229,5 +228,38 @@ class FirebaseService {
     }).toList();
 
     return matches;
+  }
+
+  Future<Map<String, dynamic>> updateUser(
+    String id,
+    String password,
+    String name,
+    String surname,
+    String phone,
+    String telegramUsername,
+    String birthday,
+    String photo,
+  ) async {
+    try {
+      
+
+      var ref = database.reference();
+      var usersRef = ref.child('users');
+      var userRef = usersRef.child(id);
+
+      await userRef.set({
+        'name': name,
+        'surname': surname,
+        'phone': phone,
+        'telegramUsername': telegramUsername,
+        'birthday': birthday,
+        'photo': photo,
+      });
+
+      return {'statusCode': '200', 'status': 'ok', 'uid': id};
+    } catch (ex) {
+      print("❌ registerUser error: $ex");
+      return {'statusCode': '400', 'status': 'bad', 'error': ex.toString()};
+    }
   }
 }
