@@ -1,33 +1,38 @@
 <!DOCTYPE html>
 <html lang="uk">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Реєстрація - Student Drinking App</title>
-    <link rel="stylesheet" href="css/style.css"> 
+    <link rel="stylesheet" href="css/style.css">
+    <script type="module" src="js/script.js" defer></script>
+
+
 </head>
+
 <body>
     <div class="form-container">
         <h1>Реєстрація</h1>
-        
+
         <form id="signupForm">
             <div class="form-row">
                 <div class="form-group">
                     <label for="name">Ім'я</label>
                     <input type="text" id="name" name="name" required>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="surname">Прізвище</label>
                     <input type="text" id="surname" name="surname" required>
                 </div>
             </div>
-            
+
             <div class="form-group">
                 <label for="email">Email</label>
                 <input type="email" id="email" name="email" required>
             </div>
-            
+
             <div class="form-group">
                 <label for="password">Пароль</label>
                 <input type="password" id="password" name="password" required>
@@ -41,12 +46,12 @@
                 <label for="phoneNumber">Номер телефону</label>
                 <input type="tel" id="phoneNumber" name="phoneNumber" required>
             </div>
-            
+
             <div class="form-group">
                 <label for="telegramUsername">Telegram Username</label>
                 <input type="text" id="telegramUsername" name="telegramUsername" placeholder="@username">
             </div>
-            
+
             <div class="form-group">
                 <label for="photo">Фото профілю</label>
                 <div class="file-upload-wrapper">
@@ -57,15 +62,16 @@
                 </div>
                 <img id="profile-preview" class="profile-preview" src="" alt="Попередній перегляд фото">
             </div>
-            
+
             <button type="submit" class="btn">Зареєструватися</button>
         </form>
-        
+
         <div class="link-text">
             Вже є акаунт? <a href="../login/login.html">Увійти</a>
         </div>
     </div>
-    
+
     <script src="js/script.js" defer></script>
 </body>
+
 </html>
