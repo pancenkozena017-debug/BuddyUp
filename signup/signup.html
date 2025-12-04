@@ -19,12 +19,12 @@
             <div class="form-row">
                 <div class="form-group">
                     <label for="name">Ім'я</label>
-                    <input type="text" id="name" name="name" required>
+                    <input type="text" id="name" name="name" maxlength="15" required>
                 </div>
 
                 <div class="form-group">
                     <label for="surname">Прізвище</label>
-                    <input type="text" id="surname" name="surname" required>
+                    <input type="text" id="surname" name="surname" maxlength="15" required>
                 </div>
             </div>
 
@@ -44,7 +44,7 @@
             </div>
             <div class="form-group">
                 <label for="phoneNumber">Номер телефону</label>
-                <input type="tel" id="phoneNumber" name="phoneNumber" required>
+                <input type="tel" id="phoneNumber" name="phoneNumber" maxlength="11" required>
             </div>
 
             <div class="form-group">
@@ -70,6 +70,7 @@
             Вже є акаунт? <a href="../login/login.html">Увійти</a>
         </div>
     </div>
+    <div id="signupError" style="margin-top:10px; color:red;"></div>
 
     <script src="js/script.js" defer></script>
 </body>

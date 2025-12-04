@@ -145,6 +145,61 @@ header {
     color: var(--secondary);
 }
 
+/* ВСТАВИТИ У ВАШ style.css */
+/* Стилі для основного контейнера модального вікна */
+.modal {
+    display: none; /* КЛЮЧОВЕ: Приховуємо вікно за замовчуванням */
+    position: fixed; 
+    z-index: 1000; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%;
+    overflow: auto; 
+    background-color: rgba(0,0,0,0.6); 
+}
+
+/* Стилі для вмісту модального вікна */
+.modal-content {
+    background-color: #ffffff;
+    margin: 5% auto; 
+    padding: 30px;
+    border-radius: 10px;
+    width: 90%; 
+    max-width: 500px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+}
+
+/* Стилі для кнопки закриття */
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 32px;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Стилі для відображення даних */
+.profile-data p {
+    margin: 8px 0;
+    border-bottom: 1px dashed #eee;
+    padding-bottom: 5px;
+}
+
+.profile-data strong {
+    display: inline-block;
+    width: 120px;
+    color: #555;
+}
+
+
 /* Desktop Navigation */
 nav {
     display: none;
