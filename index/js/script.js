@@ -1,4 +1,4 @@
-// ВСТАВИТИ У ВАШ script.js (або в <script> тег)
+
 
 // 1. Отримуємо елементи
 const profileButton = document.getElementById('profile-button-trigger'); // Новий ID для кнопки в хедері
