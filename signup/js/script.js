@@ -1,25 +1,16 @@
-import { firebaseConfig } from '../keys.js'; 
+import { firebaseConfig } from '../keys.js';
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
 // Ініціалізація Firebase
 const app = initializeApp(firebaseConfig);
-console.log("✅ Firebase App initialized:", app.name);
-
-// Підключення Storage
-export const storage = getStorage(app);
-console.log("✅ Firebase Storage ready:", storage);
+const storage = getStorage(app);
 
 // Функція завантаження фото
 async function uploadPhotoToFirebase(file) {
-    console.log("📁 Uploading file:", file.name);
-
     const storageRef = ref(storage, `users/${Date.now()}_${file.name}`);
     await uploadBytes(storageRef, file);
-    const downloadURL = await getDownloadURL(storageRef);
-
-    console.log("🔥 File uploaded, URL:", downloadURL);
-    return downloadURL;
+    return await getDownloadURL(storageRef);
 }
 
 // Попередній перегляд фото
@@ -36,18 +27,19 @@ document.getElementById('photo').addEventListener('change', function (e) {
         };
         reader.readAsDataURL(file);
         fileUploadText.textContent = file.name;
-        console.log("📷 File selected for upload:", file.name);
     } else {
         preview.src = '';
         preview.style.display = 'none';
         fileUploadText.textContent = 'Вибрати файл';
-        console.log("⚠ No file selected");
     }
 });
 
 // Відправка форми
 document.getElementById('signupForm').addEventListener('submit', async function (e) {
     e.preventDefault();
+
+    const errorDiv = document.getElementById('signupError'); // елемент для повідомлень
+    errorDiv.textContent = ""; // очищаємо попередні повідомлення
 
     const file = document.getElementById('photo').files[0];
     let photoURL = "";
@@ -57,7 +49,7 @@ document.getElementById('signupForm').addEventListener('submit', async function 
             photoURL = await uploadPhotoToFirebase(file);
         } catch (err) {
             console.error("❌ Firebase upload error:", err);
-            alert("Помилка завантаження фото!");
+            errorDiv.textContent = "Помилка завантаження фото!";
             return;
         }
     }
@@ -82,16 +74,21 @@ document.getElementById('signupForm').addEventListener('submit', async function 
         `&birthday=${encodeURIComponent(birthday)}` +
         `&photo=${encodeURIComponent(photoURL)}`;
 
-    console.log("📤 Sending request to:", url);
+    try {
+        const response = await fetch(url, { method: "POST" });
+        const data = await response.json();
 
-    fetch(url, { method: "POST" })
-        .then(res => res.json())
-        .then(data => {
-            console.log("✅ Server Response:", data);
-            alert("Реєстрація успішна!");
-        })
-        .catch(err => {
-            console.error("❌ Error sending form data:", err);
-            alert("Помилка відправки даних!");
-        });
+        if (data.status === "ok") {
+            console.error("ОКЕЙ Error sending form data:", data.userId);
+
+            localStorage.setItem("userId", data.userId);
+            window.location.href = "/"; // або "/login.html" якщо є окремий логін
+        } else {
+            // Помилка від сервера, наприклад email вже зайнятий
+            errorDiv.textContent = data.message || "Сталася помилка реєстрації!";
+        }
+    } catch (err) {
+        console.error("❌ Error sending form data:", err);
+        errorDiv.textContent = "Помилка мережі. Спробуйте ще раз!";
+    }
 });

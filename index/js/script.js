@@ -7,16 +7,6 @@ const closeButton = document.querySelector('.close-button');
 const dataDisplay = document.getElementById('profile-data-display');
 
 
-// 2. Імітація даних (замініть на реальне отримання даних)
-const userData = {
-    email: "user@example.com",
-    password: "h*ddenPassword", 
-    name: "Олексій",
-    surname: "Коваленко",
-    birthday: "1995-10-25",
-    phone: "+380 50 123 4567",
-    telegramUsername: "@aleksey_k"
-};
 
 
 // 3. Допоміжна функція для форматування даних
@@ -28,7 +18,6 @@ function formatUserData(data) {
         { label: "Дата народження", value: data.birthday },
         { label: "Телефон", value: data.phone },
         { label: "Telegram", value: data.telegramUsername },
-        { label: "Пароль", value: "********" } 
     ];
 
     let htmlContent = '';
@@ -41,19 +30,33 @@ function formatUserData(data) {
 
 
 // 4. Обробники подій
-// Відкриття вікна по кліку на кнопку в хедері
-profileButton.addEventListener('click', function() {
-    dataDisplay.innerHTML = formatUserData(userData);
-    modal.style.display = 'block';
+profileButton.addEventListener('click', async function () {
+    const userId = localStorage.getItem("userId");
+    if (!userId) {
+        alert("Користувач не знайдений у localStorage");
+        return;
+    }
+
+    try {
+        const response = await fetch(`https://buddyup-production-88e9.up.railway.app/get_user?id=${userId}`);
+        if (!response.ok) throw new Error("Помилка при отриманні даних користувача");
+
+        const userData = await response.json();
+        dataDisplay.innerHTML = formatUserData(userData);
+        modal.style.display = 'block';
+    } catch (error) {
+        console.error(error);
+        alert("Не вдалося завантажити дані користувача");
+    }
 });
 
 // Закриття вікна по кнопці "x"
-closeButton.addEventListener('click', function() {
+closeButton.addEventListener('click', function () {
     modal.style.display = 'none';
 });
 
 // Закриття вікна по кліку поза ним
-window.addEventListener('click', function(event) {
+window.addEventListener('click', function (event) {
     if (event.target === modal) {
         modal.style.display = 'none';
     }

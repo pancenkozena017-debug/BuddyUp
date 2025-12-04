@@ -8,11 +8,29 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
 
   console.log("📤 Login request to:", url);
 
-  fetch(url, { method: "POST" })
-    .then(res => res.json())
-    .then(data => {
-      console.log("✅ Login Response:", data);
-      alert("Вхід пройшов! Перевір консоль");
-    })
-    .catch(err => console.error("❌ Fetch login error:", err));
+  try {
+    const response = await fetch(url, { method: "POST" });
+    const data = await response.json();
+
+    console.log("✅ Login Response:", data);
+
+    if (data.status === "ok" && data.userId) {
+      // Успішний вхід — зберігаємо userId і переходимо на головну
+      localStorage.setItem("userId", data.userId);
+      window.location.href = "/"; // тут можна змінити на потрібну головну сторінку
+    } else if (data.status === "error") {
+      // Помилка від сервера, наприклад неправильний пароль або пошта
+      const message = data.message || "Невірна пошта або пароль. Спробуйте ще раз.";
+      document.getElementById('loginError').textContent = message;
+      document.getElementById('loginError').style.color = "red";
+    } else {
+      // Невідома помилка
+      document.getElementById('loginError').textContent = "Сталася невідома помилка.";
+      document.getElementById('loginError').style.color = "red";
+    }
+  } catch (err) {
+    console.error("❌ Fetch login error:", err);
+    document.getElementById('loginError').textContent = "Помилка мережі. Спробуйте ще раз.";
+    document.getElementById('loginError').style.color = "red";
+  }
 });
