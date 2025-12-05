@@ -204,9 +204,7 @@ class FirebaseService {
     final likeObj = Map<String, dynamic>.from(snapshot);
 
     print(likeObj);
-    print(
-      likeObj,
-    ); 
+    print(likeObj);
     return [likeObj];
   }
 
@@ -241,8 +239,6 @@ class FirebaseService {
     String photo,
   ) async {
     try {
-      
-
       var ref = database.reference();
       var usersRef = ref.child('users');
       var userRef = usersRef.child(id);
@@ -260,6 +256,56 @@ class FirebaseService {
     } catch (ex) {
       print("❌ registerUser error: $ex");
       return {'statusCode': '400', 'status': 'bad', 'error': ex.toString()};
+    }
+  }
+
+  Future<Map<String, dynamic>> sendRating(String to, int rating) async {
+    try {
+      var ref = database.reference();
+      var usersRef = ref.child('users');
+      var userRef = usersRef.child(to);
+
+      final snapshot = await userRef.get();
+      if (snapshot == null) {
+        throw Exception("User not found");
+      }
+      final userData = Map<String, dynamic>.from(snapshot as Map);
+      double currentRating = userData['rating'] ?? 0;
+
+      double newRating = currentRating + rating;
+      userRef.update({'rating': newRating});
+
+      return {'statusCode': '200', 'status': 'ok'};
+    } catch (ex) {
+      print("❌ registerUser error: $ex");
+      return {'statusCode': '400', 'status': 'bad', 'error': ex.toString()};
+    }
+  }
+
+  Future<Map<String, dynamic>> removeLikeFromUser(
+    String fromUid,
+    String toUid,
+  ) async {
+    try {
+      final likeRef = database.reference().child('likes/$toUid/$fromUid');
+      await likeRef.remove(); 
+
+      final matchRef1 = database.reference().child('matches/$fromUid/$toUid');
+      final matchRef2 = database.reference().child('matches/$toUid/$fromUid');
+
+      final match1 = await matchRef1.get();
+      final match2 = await matchRef2.get();
+
+      if (match1 != null || match2 != null) {
+        await matchRef1.remove();
+        await matchRef2.remove();
+
+        return {'statusCode': '200', 'status': 'match_removed'};
+      }
+
+      return {'statusCode': '200', 'status': 'like_removed'};
+    } catch (e) {
+      return {'statusCode': '400', 'error': e.toString()};
     }
   }
 }
