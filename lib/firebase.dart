@@ -201,11 +201,13 @@ class FirebaseService {
     print(snapshot);
     final rawData = Map<dynamic, dynamic>.from(snapshot as Map);
     print(rawData);
-    final likeObj = Map<String, dynamic>.from(snapshot);
-
-    print(likeObj);
-    print(likeObj);
-    return [likeObj];
+final result = rawData.entries.map((entry) {
+    return {
+      'from': entry.key.toString(),
+      'timestamp': entry.value['timestamp']
+    };
+  }).toList();
+    return result;
   }
 
   Future<List<Map<String, dynamic>>> getMatch(String uid) async {
