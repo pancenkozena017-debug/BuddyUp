@@ -1,10 +1,16 @@
-document.getElementById('loginForm').addEventListener('submit', async function(e) {
+document.getElementById('loginForm').addEventListener('submit', async function (e) {
   e.preventDefault();
 
   const email = document.getElementById('email').value;
   const password = document.getElementById('password').value;
+  const errorDiv = document.getElementById('loginError');
 
-  const url = `https://buddyup-production-88e9.up.railway.app/login?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`;
+  errorDiv.textContent = ""; // очищаємо старі помилки
+
+  const url =
+    `https://buddyup-production-88e9.up.railway.app/login` +
+    `?email=${encodeURIComponent(email)}` +
+    `&password=${encodeURIComponent(password)}`;
 
   console.log("📤 Login request to:", url);
 
@@ -14,23 +20,33 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
 
     console.log("✅ Login Response:", data);
 
-    if (data.status === "ok" && data.userId) {
-      // Успішний вхід — зберігаємо userId і переходимо на головну
-      localStorage.setItem("userId", data.userId);
-      window.location.href = "/"; // тут можна змінити на потрібну головну сторінку
-    } else if (data.status === "error") {
-      // Помилка від сервера, наприклад неправильний пароль або пошта
-      const message = data.message || "Невірна пошта або пароль. Спробуйте ще раз.";
-      document.getElementById('loginError').textContent = message;
-      document.getElementById('loginError').style.color = "red";
-    } else {
-      // Невідома помилка
-      document.getElementById('loginError').textContent = "Сталася невідома помилка.";
-      document.getElementById('loginError').style.color = "red";
+    // дістаємо внутрішні дані
+    const serverData = data.data || {};
+
+    // логіка успіху
+    const isSuccess =
+      serverData.status === "ok" ||
+      serverData.statusCode === "200" ||
+      data.message === "Login successful";
+
+    if (isSuccess && serverData.uid) {
+      const userId = serverData.uid;
+
+      localStorage.setItem("userId", userId);
+      console.log("💾 Saved userId:", userId);
+
+      window.location.href = "/index/index.html"; // перехід на головну
+      return;
     }
+
+    // Якщо сервер повернув помилку
+    errorDiv.textContent = data.message || "Невірна пошта або пароль.";
+    errorDiv.style.color = "red";
+
   } catch (err) {
     console.error("❌ Fetch login error:", err);
-    document.getElementById('loginError').textContent = "Помилка мережі. Спробуйте ще раз.";
-    document.getElementById('loginError').style.color = "red";
+
+    errorDiv.textContent = "Помилка мережі. Спробуйте ще раз.";
+    errorDiv.style.color = "red";
   }
 });

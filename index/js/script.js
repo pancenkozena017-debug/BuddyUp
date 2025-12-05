@@ -8,7 +8,6 @@ const dataDisplay = document.getElementById('profile-data-display');
 
 
 
-
 // 3. Допоміжна функція для форматування даних
 function formatUserData(data) {
     const displayItems = [
@@ -38,7 +37,7 @@ profileButton.addEventListener('click', async function () {
     }
 
     try {
-        const response = await fetch(`https://buddyup-production-88e9.up.railway.app/get_user?id=${userId}`);
+        const response = await fetch(`https://buddyup-production-88e9.up.railway.app/get_user?uid=${userId}`);
         if (!response.ok) throw new Error("Помилка при отриманні даних користувача");
 
         const userData = await response.json();
@@ -63,30 +62,58 @@ window.addEventListener('click', function (event) {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    const profiles = [
-        { name: "Олег, 20", uni: "КПІ", quote: "Get in the robot, Shinji! А краще ходімо в бар 🍺", tags: ["Пиво", "Аніме", "Програмування"], distance: "0.5 км" },
-        { name: "Анастасія, 19", uni: "КНУ", quote: "Не можу знайти мотивацію писати курсач. Ходімо краще в кіно!", tags: ["Навчання", "Кіно", "Кава"], distance: "1.2 км" },
-        { name: "Максим, 21", uni: "ЛНУ ім. І. Франка", quote: "Хто зі мною на футбол сьогодні ввечері?", tags: ["Спорт", "Футбол", "Гуртожиток №3"], distance: "0.3 км" }
-    ];
-
+    let profiles = [];
     let currentProfileIndex = 0;
-    
+
+    const initialCard = document.querySelector('.profile-card');
+
+    // Функція для завантаження користувачів з сервера
+    async function loadUsers() {
+        try {
+            const response = await fetch("https://buddyup-production-88e9.up.railway.app/get_users");
+            if (!response.ok) throw new Error("Не вдалося завантажити користувачів");
+
+            const users = await response.json();
+            // Перемішуємо список
+            profiles = users.sort(() => Math.random() - 0.5);
+            currentProfileIndex = 0;
+        } catch (error) {
+            console.error(error);
+            alert("Помилка при отриманні користувачів");
+        }
+    }
+
+    // Функція для оновлення картки
     function updateCardContent(cardElement, data) {
-        cardElement.querySelector('#profileName').textContent = data.name;
-        cardElement.querySelector('#profileUni').textContent = data.uni;
-        cardElement.querySelector('#profileQuote').textContent = `"${data.quote}"`;
-        cardElement.querySelector('#profileDistance').textContent = data.distance;
-        
+        cardElement.querySelector('#profileName').textContent = `${data.name}, ${getAge(data.birthday)}`;
+        cardElement.querySelector('#profileUni').textContent = data.university || '';
+        cardElement.querySelector('#profileQuote').textContent = `"${data.quote || ''}"`;
+        cardElement.querySelector('#profileDistance').textContent = data.distance || '';
+
         const tagsContainer = cardElement.querySelector('#profileTags');
         tagsContainer.innerHTML = '';
-        data.tags.forEach(tag => {
+        (data.tags || []).forEach(tag => {
             const span = document.createElement('span');
             span.className = 'tag';
             span.textContent = tag;
             tagsContainer.appendChild(span);
         });
+
+        // Фото
+        const img = cardElement.querySelector('#profileImage');
+        if (img && data.photo) img.src = data.photo;
     }
 
+    // Допоміжна функція для обчислення віку
+    function getAge(birthday) {
+        if (!birthday) return '';
+        const birthDate = new Date(birthday);
+        const diff = Date.now() - birthDate.getTime();
+        const age = new Date(diff).getUTCFullYear() - 1970;
+        return age;
+    }
+
+    // Налаштування свайп-картки
     function setupCardInteractions(card) {
         let isDragging = false;
         let startX = 0;
@@ -94,19 +121,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const threshold = 100;
 
         function startDrag(e) {
-            if (e.target.closest('.profile-buttons')) return; 
+            if (e.target.closest('.profile-buttons')) return;
 
             isDragging = true;
             startX = e.clientX || e.touches[0].clientX;
-            card.classList.add('is-dragging'); 
+            card.classList.add('is-dragging');
         }
 
         function drag(e) {
             if (!isDragging) return;
 
-            currentX = e.clientX || e.touches[0].clientX; 
-            const deltaX = currentX - startX; 
-            const rotation = deltaX / 20; 
+            currentX = e.clientX || e.touches[0].clientX;
+            const deltaX = currentX - startX;
+            const rotation = deltaX / 20;
 
             card.style.transform = `translateX(${deltaX}px) rotate(${rotation}deg)`;
         }
@@ -116,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             isDragging = false;
             card.classList.remove('is-dragging');
-            
+
             const deltaX = currentX - startX;
 
             if (deltaX > threshold) {
@@ -127,21 +154,42 @@ document.addEventListener('DOMContentLoaded', () => {
                 card.style.transform = '';
             }
         }
-        
+
         function handleButtonClick(direction) {
             if (card.classList.contains('swipe-like') || card.classList.contains('swipe-reject')) return;
             throwCard(direction);
         }
 
-        function throwCard(direction) {
+        async function throwCard(direction) {
             card.classList.add(`swipe-${direction}`);
-            
-            card.addEventListener('transitionend', () => {
-                card.remove(); 
-                
-                currentProfileIndex = (currentProfileIndex + 1) % profiles.length;
-                const nextData = profiles[currentProfileIndex];
-                
+
+            card.addEventListener('transitionend', async () => {
+                card.remove();
+
+                // Відправляємо лайк/дизлайк на сервер
+                const currentUserId = localStorage.getItem("userId"); // твій id
+                const targetUserId = profiles[currentProfileIndex].id; // id користувача, якому ставимо лайк
+
+                try {
+                    const response = await fetch(`https://buddyup-production-88e9.up.railway.app/sendLike?to=${currentUserId}&from=${targetUserId}`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                    });
+                    const data = await response.json();
+                    console.log(`Відправлено ${direction} для користувача ${targetUserId}:`, data);
+                } catch (error) {
+                    console.error(`Помилка при ${direction}:`, error);
+                }
+
+                // Переходимо до наступної картки
+                currentProfileIndex++;
+                if (currentProfileIndex >= profiles.length) {
+                    await loadUsers();
+                }
+
+                const nextData = profiles[currentProfileIndex % profiles.length];
                 const newCard = document.querySelector('.profile-card-template').cloneNode(true);
                 newCard.classList.remove('profile-card-template');
                 newCard.classList.add('profile-card');
@@ -152,6 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.querySelector('.profiles .container').insertBefore(newCard, document.querySelector('.easter-egg'));
             }, { once: true });
         }
+
 
         // Прив'язка обробників для свайпу
         card.addEventListener('mousedown', startDrag);
@@ -167,16 +216,34 @@ document.addEventListener('DOMContentLoaded', () => {
         card.querySelector('.button-reject').addEventListener('click', () => handleButtonClick('reject'));
     }
 
-    // Створюємо шаблон картки  для клонування
-    const initialCard = document.querySelector('.profile-card');
+    // Клонування шаблону картки
     const cardTemplate = initialCard.cloneNode(true);
     cardTemplate.classList.remove('profile-card');
     cardTemplate.classList.add('profile-card-template');
-    
-    // Додаємо шаблон в DOM (приховано)
     initialCard.parentNode.insertBefore(cardTemplate, initialCard);
-    
-    // Налаштовуємо першу картку
-    updateCardContent(initialCard, profiles[currentProfileIndex]);
-    setupCardInteractions(initialCard);
+
+    // Старт: завантажуємо користувачів і налаштовуємо першу картку
+    (async () => {
+        await loadUsers();
+        updateCardContent(initialCard, profiles[currentProfileIndex]);
+        setupCardInteractions(initialCard);
+    })();
+});
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    const userId = localStorage.getItem("userId");
+
+    const loginButton = document.getElementById("login-button");
+    const profileTrigger = document.getElementById("profile-button-trigger");
+
+    if (userId) {
+        // Є userId → показуємо профіль
+        if (profileTrigger) profileTrigger.style.display = "inline-block";
+        if (loginButton) loginButton.style.display = "none";
+    } else {
+        // Нема userId → показуємо логін
+        if (profileTrigger) profileTrigger.style.display = "none";
+        if (loginButton) loginButton.style.display = "inline-block";
+    }
 });

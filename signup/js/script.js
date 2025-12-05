@@ -78,17 +78,36 @@ document.getElementById('signupForm').addEventListener('submit', async function 
         const response = await fetch(url, { method: "POST" });
         const data = await response.json();
 
-        if (data.status === "ok") {
-            console.error("ОКЕЙ Error sending form data:", data.userId);
+        console.log("SERVER RESPONSE:", data);
 
-            localStorage.setItem("userId", data.userId);
-            window.location.href = "/"; // або "/login.html" якщо є окремий логін
-        } else {
-            // Помилка від сервера, наприклад email вже зайнятий
-            errorDiv.textContent = data.message || "Сталася помилка реєстрації!";
+        // дані сервера
+        const serverData = data.data || {};
+
+        const isSuccess =
+            serverData.status === "ok" ||
+            serverData.statusCode === "200" ||
+            data.message === "Registered successfully!";
+
+        if (isSuccess) {
+            const userId = serverData.uid; // <-- ось тут правильний userId
+
+            if (!userId) {
+                errorDiv.textContent = "❌ Сервер не повернув uid!";
+                return;
+            }
+
+            console.log("UserId saved:", userId);
+            localStorage.setItem("userId", userId);
+
+            // Перехід після успіху
+            window.location.href = "/index/index.html";
+            return;
         }
+
+        errorDiv.textContent = data.message || "Сталася помилка реєстрації!";
     } catch (err) {
         console.error("❌ Error sending form data:", err);
         errorDiv.textContent = "Помилка мережі. Спробуйте ще раз!";
     }
+
 });
