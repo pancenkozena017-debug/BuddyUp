@@ -9,6 +9,8 @@ import 'package:buddy_up/post/post_like.dart';
 import 'package:buddy_up/post/post_log_in.dart';
 import 'package:buddy_up/post/post_register.dart';
 import 'package:buddy_up/put/update_profile.dart';
+import 'package:buddy_up/post/post_rating.dart';
+import 'package:buddy_up/delete/like_delete.dart';
 import 'package:buddy_up/server.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart';
@@ -49,6 +51,8 @@ void main() async {
   await get_likes(firebaseService);
   await get_matches(firebaseService);
   await update(firebaseService);
+  await sendRating(firebaseService);
+  await removeLike(firebaseService);
   final handler = Pipeline().addMiddleware(corsMiddleware()).addHandler(app);
   final port = int.parse(Platform.environment['PORT'] ?? '8080');
 
