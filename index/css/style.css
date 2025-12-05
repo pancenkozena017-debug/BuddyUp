@@ -1119,3 +1119,47 @@ footer {
     color: var(--text-muted);
     font-style: italic;
 }
+.like-item {
+    background: #fff;
+    border-radius: 16px;
+    padding: 12px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    transition: 0.2s ease;
+}
+
+.like-item:hover {
+    transform: scale(1.03);
+}
+
+.like-photo {
+    width: 70px;
+    height: 70px;
+    border-radius: 12px;
+    object-fit: cover;
+}
+
+.like-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.like-name {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.like-uni {
+    font-size: 14px;
+    color: #777;
+}
+
+.like-quote {
+    font-size: 13px;
+    font-style: italic;
+    color: #444;
+    margin-top: 4px;
+}
