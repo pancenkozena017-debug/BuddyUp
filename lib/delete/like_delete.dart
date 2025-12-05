@@ -5,7 +5,7 @@ import 'package:buddy_up/server.dart';
 import 'package:shelf/shelf.dart';
 
 Future<void> removeLike(FirebaseService firebaseService) async {
-  app.delete('/removeLike', (Request req) async {
+  app.post('/removeLike', (Request req) async {
     try {
       final to = req.url.queryParameters['to'];
       final from = req.url.queryParameters['from'];
