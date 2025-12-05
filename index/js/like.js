@@ -1,4 +1,3 @@
-
 // ==================== ЛАЙКИ ==================== //
 
 const likesModal = document.getElementById("likes-modal");
@@ -6,8 +5,8 @@ const likesButton = document.getElementById("likes-button");
 const closeLikesButton = document.querySelector(".close-likes-button");
 const likesList = document.getElementById("likes-list");
 
-// Твій uid з кешу (localStorage)
-const currentUid = localStorage.getItem("uid");
+// Твій uid з кешу
+const currentUid = localStorage.getItem("userId");
 
 // Відкрити модал
 likesButton.addEventListener("click", () => {
@@ -20,14 +19,14 @@ closeLikesButton.addEventListener("click", () => {
     likesModal.style.display = "none";
 });
 
-// Закривання по кліку поза вікном
+// Закривання поза модалкою
 window.addEventListener("click", (e) => {
     if (e.target === likesModal) {
         likesModal.style.display = "none";
     }
 });
 
-// ====== Функція завантаження лайків ======
+// ============== LOAD LIKES ==============
 async function loadLikes() {
     if (!currentUid) {
         likesList.innerHTML = "<p>❌ Ви не увійшли</p>";
@@ -37,7 +36,10 @@ async function loadLikes() {
     likesList.innerHTML = "<p>Завантаження...</p>";
 
     try {
-        const res = await fetch(`https://buddyup-production-88e9.up.railway.app/get_likes?uid=${currentUid}`);
+        const res = await fetch(
+            `https://buddyup-production-88e9.up.railway.app/get_likes?uid=${currentUid}`
+        );
+
         const data = await res.json();
 
         if (!Array.isArray(data) || data.length === 0) {
@@ -50,29 +52,29 @@ async function loadLikes() {
         data.forEach(like => {
             const div = document.createElement("div");
             div.classList.add("like-item");
+            console.log(like);
 
-            const photo = like.photoURL || "/img/default-avatar.png";
-            const name = like.name || `UID: ${like.from_uid}`;
-            const uni = like.uni || "Студент";
-            const quote = like.quote || "";
+            const photo = like.photo || "/img/default-avatar.png";
+            const name = (like.name + like.surname) || `UID: ${like.id}`;
+            const birthday = like.birthday || "Студент";
 
             div.innerHTML = `
-        <img src="${photo}" class="like-photo">
-        <div class="like-info">
-            <div class="like-name">${name}</div>
-            <div class="like-uni">${uni}</div>
-            <div class="like-quote">${quote}</div>
-        </div>
+                <img src="${photo}" class="like-photo">
+                <div class="like-info">
+                    <div class="like-name">${name}</div>
+                    <div class="like-uni">${birthday}</div>
+                </div>
 
-        <div class="like-actions">
-            <button class="reject-btn" data-uid="${like.from_uid}">❌</button>
-            <button class="accept-btn" data-uid="${like.from_uid}">❤️</button>
-        </div>
-    `;
+                <div class="like-actions">
+                    <button class="reject-btn" data-uid="${like.id}">❌</button>
+                    <button class="accept-btn" data-uid="${like.id}">❤️</button>
+                </div>
+            `;
 
             likesList.appendChild(div);
         });
 
+        attachButtons();
 
     } catch (err) {
         console.error(err);
@@ -80,62 +82,59 @@ async function loadLikes() {
     }
 }
 
-// ===== Автооновлення кожні 60 секунд =====
+// Автооновлення
 setInterval(() => {
     if (likesModal.style.display === "block") {
         loadLikes();
     }
 }, 60000);
-// ===== Обробники кнопок =====
 
-// Reject (Відхилити)
-document.querySelectorAll(".reject-btn").forEach(btn => {
-    btn.addEventListener("click", async () => {
-        const fromUid = btn.dataset.uid;
+// ============== BUTTON HANDLERS ==============
+function attachButtons() {
 
-        try {
-            await fetch(`https://buddyup-production-88e9.up.railway.app/reject_like`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    to_uid: currentUid,
-                    from_uid: fromUid
-                })
-            });
+    document.querySelectorAll(".reject-btn").forEach(btn => {
+        btn.addEventListener("click", async () => {
+            const fromUid = btn.dataset.uid;
 
-            btn.closest(".like-item").remove(); // забрати з UI
-        } catch (err) {
-            console.log(err);
-            alert("Помилка при відхиленні!");
-        }
-    });
-});
+            const url =
+                `https://buddyup-production-88e9.up.railway.app/removeLike` +
+                `?to=${encodeURIComponent(currentUid)}` +
+                `&from=${encodeURIComponent(fromUid)}`;
+            print(url);
+            try {
+                await fetch(url, { method: "POST" });
 
-// Accept (Прийняти → створює матч)
-document.querySelectorAll(".accept-btn").forEach(btn => {
-    btn.addEventListener("click", async () => {
-        const fromUid = btn.dataset.uid;
-
-        try {
-            const res = await fetch(`https://buddyup-production-88e9.up.railway.app/accept_like`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    to_uid: currentUid,
-                    from_uid: fromUid
-                })
-            });
-
-            const data = await res.json();
-
-            if (data.status === "match") {
-                alert("🎉 У вас взаємний матч!");
+                btn.closest(".like-item").remove();
+            } catch (err) {
+                console.log(err);
+                alert("Помилка при відхиленні!");
             }
-
-            btn.closest(".like-item").remove(); // забрати з UI
-        } catch (err) {
-            console.log(err);
-            alert("Помилка при прийнятті!");
-        }
+        });
     });
-});
+
+    // Accept
+    document.querySelectorAll(".accept-btn").forEach(btn => {
+        btn.addEventListener("click", async () => {
+            const fromUid = btn.dataset.uid;// тут така сама швидше за все проблема , але тут вопше нічо не пише ніяку помилку і ніякий 
+
+            const url =
+                `https://buddyup-production-88e9.up.railway.app/sendLike` +
+                `?to=${encodeURIComponent(currentUid)}` +
+                `&from=${encodeURIComponent(fromUid)}`;
+
+            try {
+                const res = await fetch(url, { method: "POST" });
+                const data = await res.json();
+
+                if (data.status === "match") {
+                    alert("🎉 У вас взаємний матч!");
+                }
+
+                btn.closest(".like-item").remove();
+            } catch (err) {
+                console.log(err);
+                alert("Помилка при прийнятті!");
+            }
+        });
+    });
+}

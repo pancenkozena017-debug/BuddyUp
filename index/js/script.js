@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Функція для оновлення картки
     function updateCardContent(cardElement, data) {
-        cardElement.querySelector('#profileName').textContent = `${data.name}, ${getAge(data.birthday)}`;
+        cardElement.querySelector('#profileName').textContent = `${data.name} ${data.surname}, ${getAge(data.birthday)}`;
         cardElement.querySelector('#profileUni').textContent = data.university || '';
         cardElement.querySelector('#profileQuote').textContent = `"${data.quote || ''}"`;
         cardElement.querySelector('#profileDistance').textContent = data.distance || '';

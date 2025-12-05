@@ -5,7 +5,7 @@ document.getElementById('loginForm').addEventListener('submit', async function (
   const password = document.getElementById('password').value;
   const errorDiv = document.getElementById('loginError');
 
-  errorDiv.textContent = ""; // очищаємо старі помилки
+  errorDiv.textContent = "";
 
   const url =
     `https://buddyup-production-88e9.up.railway.app/login` +
@@ -20,27 +20,22 @@ document.getElementById('loginForm').addEventListener('submit', async function (
 
     console.log("✅ Login Response:", data);
 
-    // дістаємо внутрішні дані
-    const serverData = data.data || {};
+    // сервер повертає ПЛОСКИЙ JSON
+    const serverData = data;
 
-    // логіка успіху
     const isSuccess =
       serverData.status === "ok" ||
-      serverData.statusCode === "200" ||
-      data.message === "Login successful";
+      serverData.statusCode === "200";
 
     if (isSuccess && serverData.uid) {
-      const userId = serverData.uid;
+      localStorage.setItem("userId", serverData.uid);
+      console.log("💾 Saved userId:", serverData.uid);
 
-      localStorage.setItem("userId", userId);
-      console.log("💾 Saved userId:", userId);
-
-      window.location.href = "/index/index.html"; // перехід на головну
+      window.location.href = "/index/index.html";
       return;
     }
 
-    // Якщо сервер повернув помилку
-    errorDiv.textContent = data.message || "Невірна пошта або пароль.";
+    errorDiv.textContent = "Невірна пошта або пароль.";
     errorDiv.style.color = "red";
 
   } catch (err) {
