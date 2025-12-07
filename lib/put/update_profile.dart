@@ -11,6 +11,7 @@ Future<void> update(FirebaseService firebaseService) async {
       final password = req.url.queryParameters['password'];
       final name = req.url.queryParameters['name'];
       final surname = req.url.queryParameters['surname'];
+      final description = req.url.queryParameters['description'];
       final phone = req.url.queryParameters['phone'];
       final birthday = req.url.queryParameters['birthday'];
       final telegramUsername = req.url.queryParameters['telegramUsername'];
@@ -24,6 +25,7 @@ Future<void> update(FirebaseService firebaseService) async {
       if (phone == null) missing.add('phone');
       if (birthday == null) missing.add('birthday');
       if (telegramUsername == null) missing.add('telegramUsername');
+      if (description == null) missing.add('description');
 
       if (missing.isNotEmpty) {
         return Response(
@@ -33,7 +35,7 @@ Future<void> update(FirebaseService firebaseService) async {
         );
       }
 
-      final result = await firebaseService.registerUser(
+      final result = await firebaseService.updateUser(
         id!,
         password!,
         name!,
@@ -41,7 +43,8 @@ Future<void> update(FirebaseService firebaseService) async {
         phone!,
         telegramUsername!,
         birthday!,
-        photo,
+        photo!,
+        description!,
       );
 
       return Response.ok(
