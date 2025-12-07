@@ -8,7 +8,6 @@ Future<void> update(FirebaseService firebaseService) async {
   app.put('/update', (Request req) async {
     try {
       final id = req.url.queryParameters['id'];
-      final password = req.url.queryParameters['password'];
       final name = req.url.queryParameters['name'];
       final surname = req.url.queryParameters['surname'];
       final description = req.url.queryParameters['description'];
@@ -18,7 +17,6 @@ Future<void> update(FirebaseService firebaseService) async {
 
       final missing = <String>[];
       if (id == null) missing.add('id');
-      if (password == null) missing.add('password');
       if (name == null) missing.add('name');
       if (surname == null) missing.add('surname');
       if (birthday == null) missing.add('birthday');
@@ -35,7 +33,6 @@ Future<void> update(FirebaseService firebaseService) async {
 
       final result = await firebaseService.updateUser(
         id!,
-        password!,
         name!,
         surname!,
         phone!,
