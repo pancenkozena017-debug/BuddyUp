@@ -5,7 +5,7 @@ import 'package:shelf/shelf.dart';
 import 'package:buddy_up/server.dart';
 
 Future<void> update(FirebaseService firebaseService) async {
-  app.post('/update', (Request req) async {
+  app.put('/update', (Request req) async {
     try {
       final id = req.url.queryParameters['id'];
       final password = req.url.queryParameters['password'];
