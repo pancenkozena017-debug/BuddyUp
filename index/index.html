@@ -115,7 +115,7 @@
 
     <div id="matches-modal" class="modal">
         <div class="modal-content">
-            <span class="close-matches-button">&times;</span>
+            <span class="close-button">&times;</span>
             <h2>💕 Мої матчі</h2>
             <div id="matches-list">
                 <p>Завантаження...</p>
@@ -147,9 +147,7 @@
                             class="button button-primary button-lg">
                             👥 Почати зараз
                         </a> </button>
-                    <button class="button button-outline button-lg">
-                        📍 Переглянути карту
-                    </button>
+
                 </div>
 
                 <div class="stats-grid">
@@ -261,88 +259,39 @@
 
     <!-- MAP SECTION -->
     <section class="map" id="map">
-        <div class="container">
-            <div class="section-title">
-                <h2><span class="text-primary">Карта</span> твоїх тусовок</h2>
-                <p class="section-subtitle">
-                    Вбудована карта зі всіма гуртожитками та закладами поблизу. Бачи хто де і скільки людей
-                </p>
+    <div class="container">
+        <div class="section-title">
+            <h2><span class="text-primary">Карта</span> твоїх тусовок</h2>
+            <p class="section-subtitle">
+                Вбудована карта зі всіма та закладами поблизу
+            </p>
+        </div>
+
+        <div class="map-container">
+            <div class="map-visual" style="height: 500px; border: 3px solid #ccc; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m12!1m8!1m3!1d41173.251759340135!2d24.011034462328496!3d49.8362897980237!3m2!1i1024!2i768!4f13.1!2m1!1z0J_QsNCx0LgsINCx0LDRgNC4!5e0!3m2!1suk!2sua!4v1765138282783!5m2!1suk!2sua"
+                    width="100%" 
+                    height="100%" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
             </div>
 
-            <div class="map-container">
-                <div class="map-visual">
-                    <div class="map-grid"></div>
-
-                    <!-- Markers -->
-                    <div class="map-marker" style="left: 30%; top: 40%;">
-                        <div class="marker-circle marker-dorm">
-                            📍
-                            <span class="marker-badge">45</span>
-                        </div>
-                    </div>
-                    <div class="map-marker" style="left: 70%; top: 30%;">
-                        <div class="marker-circle marker-dorm">
-                            📍
-                            <span class="marker-badge">38</span>
-                        </div>
-                    </div>
-                    <div class="map-marker" style="left: 50%; top: 60%;">
-                        <div class="marker-circle marker-bar">
-                            🍺
-                            <span class="marker-badge">12</span>
-                        </div>
-                    </div>
-                    <div class="map-marker" style="left: 45%; top: 25%;">
-                        <div class="marker-circle marker-bar">
-                            🍺
-                            <span class="marker-badge">8</span>
-                        </div>
-                    </div>
-                    <div class="map-marker" style="left: 65%; top: 70%;">
-                        <div class="marker-circle marker-bar">
-                            🍺
-                            <span class="marker-badge">15</span>
-                        </div>
-                    </div>
-
-                    <!-- You are here -->
-                    <div class="map-marker" style="left: 50%; top: 50%;">
-                        <div class="marker-circle marker-you">
-                            👤
-                        </div>
-                        <div class="profile-badge"
-                            style="position: absolute; bottom: -35px; left: 50%; transform: translateX(-50%);">
-                            Ти тут!
-                        </div>
-                    </div>
-                </div>
-
-                <div class="map-legend">
-                    <div class="legend-item">
-                        <div class="legend-icon" style="background: var(--primary);">📍</div>
-                        <span>Гуртожитки</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-icon" style="background: var(--secondary);">🍺</div>
-                        <span>Бари та заклади</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-icon" style="background: var(--accent);">👤</div>
-                        <span>Твоя локація</span>
-                    </div>
-                </div>
             </div>
-
-            <div class="homer-comment">
-                <div class="homer-emoji">🍩</div>
-                <div class="homer-text">
-                    <div class="homer-author">Homer Simpson каже:</div>
-                    <div class="homer-quote">
-                        "Mmmm... beer map... 🍺 Це найкраща карта яку я бачив після карти пончикових!"
-                    </div>
+        
+        <div class="homer-comment">
+            <div class="homer-emoji">🍩</div>
+            <div class="homer-text">
+                <div class="homer-author">Homer Simpson каже:</div>
+                <div class="homer-quote">
+                    "Mmmm... beer map... 🍺 Це найкраща карта яку я бачив після карти пончикових!"
                 </div>
             </div>
         </div>
+    </div>
     </section>
 
     <!-- CTA SECTION -->
