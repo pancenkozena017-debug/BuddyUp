@@ -240,7 +240,6 @@ final result = rawData.entries.map((entry) {
     String phone,
     String telegramUsername,
     String birthday,
-    String photo,
     String description
   ) async {
     try {
@@ -255,7 +254,6 @@ final result = rawData.entries.map((entry) {
         'phone': phone,
         'telegramUsername': telegramUsername,
         'birthday': birthday,
-        'photo': photo,
       });
 
       return {'statusCode': '200', 'status': 'ok', 'uid': id};
