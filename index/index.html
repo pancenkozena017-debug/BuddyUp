@@ -57,7 +57,7 @@
         <div class="modal-content">
             <span class="close-button">&times;</span>
 
-            <h2>👤 Дані Мого Профілю</h2>
+            <h2>👤 Дані  Профілю</h2>
 
             <div id="profile-data-display" class="profile-data">
             </div>
@@ -71,31 +71,32 @@
 
     <!--editprofile-->
     <div id="edit-profile-modal" class="modal">
-    <div class="modal-content">
-        <span class="close-edit">&times;</span>
+        <div class="modal-content">
+            <span class="close-edit">&times;</span>
 
-        <h2>✏️ Редагувати профіль</h2>
+            <h2>✏️ Редагувати профіль</h2>
 
-        <form id="edit-profile-form">
+            <form id="edit-profile-form">
 
-            <label>Ім'я:</label>
-            <input type="text" id="edit-name" required>
+                <label>Ім'я:</label>
+                <input type="text" id="edit-name" required>
 
-            <label>Прізвище:</label>
-            <input type="text" id="edit-surname" required>
+                <label>Прізвище:</label>
+                <input type="text" id="edit-surname" required>
+                <label>Опис:</label>
+                <input type="text" id="edit-description" required>
+                <label>Дата народження:</label>
+                <input type="date" id="edit-birthday" required>
 
-            <label>Дата народження:</label>
-            <input type="date" id="edit-birthday" required>
+                <label>Телефон:</label>
+                <input type="text" id="edit-phone" required>
 
-            <label>Телефон:</label>
-            <input type="text" id="edit-phone" required>
+                <label>Telegram:</label>
+                <input type="text" id="edit-telegram" required>
 
-            <label>Telegram:</label>
-            <input type="text" id="edit-telegram" required>
-
-            <button type="submit" class="btn btn-success">Зберегти зміни</button>
-        </form>
-    </div>
+                <button type="submit" class="btn btn-success">Зберегти зміни</button>
+            </form>
+        </div>
     </div>
 
 
@@ -112,22 +113,15 @@
         </div>
     </div>
 
-
-    <!--matches-->
     <div id="matches-modal" class="modal">
-        <div class="modal-content matches-modal-content">
-            <span class="close-button">&times;</span>
-
-            <h2 class="matches-title">💕 Мої матчі</h2>
-            <p class="matches-subtitle">Люди з взаємними лайками</p>
-
-            <div id="matches-list" class="matches-list">
-                <!-- через JS -->
+        <div class="modal-content">
+            <span class="close-matches-button">&times;</span>
+            <h2>💕 Мої матчі</h2>
+            <div id="matches-list">
+                <p>Завантаження...</p>
             </div>
         </div>
     </div>
-
-
     <!-- HERO SECTION -->
     <section class="hero">
         <div class="hero-grid"></div>
@@ -235,9 +229,6 @@
             <div class="profile-card" id="profileCard">
                 <img id="profileImage" src="" alt="Профіль" class="profile-image">
 
-                <div style="position: relative;">
-                    <span class="profile-badge" id="profileDistance">0.5 км</span>
-                </div>
 
                 <div class="profile-info">
                     <div class="profile-header">
@@ -245,9 +236,8 @@
                         <div class="profile-uni" id="profileUni">Студент</div>
                     </div>
 
-                    <div class="profile-quote" id="profileQuote"></div>
+                    <div class="profile-description" id="profileDescription"></div>
 
-                    <div class="profile-tags" id="profileTags"></div>
 
                     <div class="profile-buttons">
                         <button class="button button-reject button-lg" onclick="nextProfile()">✕ Пропустити</button>
@@ -447,6 +437,8 @@
     </footer>
     <script src="js/script.js" defer></script>
     <script src="js/like.js" defer></script>
+    <script src="js/profile.js" defer></script>
+    <script src="js/matches.js" defer></script>
 
 </body>
 

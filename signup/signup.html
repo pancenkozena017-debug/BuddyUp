@@ -7,8 +7,6 @@
     <title>Реєстрація - Student Drinking App</title>
     <link rel="stylesheet" href="css/style.css">
     <script type="module" src="js/script.js" defer></script>
-
-
 </head>
 
 <body>
@@ -37,11 +35,17 @@
                 <label for="password">Пароль</label>
                 <input type="password" id="password" name="password" required>
             </div>
+            <div class="form-group">
+                <label for="description">Опис (про себе)</label>
+                <textarea id="description" name="description" rows="3"
+                    placeholder="Розкажіть коротко про себе..."></textarea>
+            </div>
 
             <div class="form-group">
                 <label for="dateOfBirth">Дата народження</label>
                 <input type="date" id="dateOfBirth" name="dateOfBirth" required>
             </div>
+
             <div class="form-group">
                 <label for="phoneNumber">Номер телефону</label>
                 <input type="tel" id="phoneNumber" name="phoneNumber" maxlength="11" required>
@@ -51,6 +55,8 @@
                 <label for="telegramUsername">Telegram Username</label>
                 <input type="text" id="telegramUsername" name="telegramUsername" placeholder="@username">
             </div>
+
+
 
             <div class="form-group">
                 <label for="photo">Фото профілю</label>

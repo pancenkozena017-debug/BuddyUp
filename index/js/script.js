@@ -1,62 +1,4 @@
 
-
-// 1. Отримуємо елементи
-const profileButton = document.getElementById('profile-button-trigger'); // Новий ID для кнопки в хедері
-const modal = document.getElementById('profile-modal');
-const closeButton = document.querySelector('.close-button');
-const dataDisplay = document.getElementById('profile-data-display');
-
-
-
-// 3. Допоміжна функція для форматування даних
-function formatUserData(data) {
-    const displayItems = [
-        { label: "Email", value: data.email },
-        { label: "Ім'я", value: data.name },
-        { label: "Прізвище", value: data.surname },
-        { label: "Дата народження", value: data.birthday },
-        { label: "Телефон", value: data.phone },
-        { label: "Telegram", value: data.telegramUsername },
-    ];
-
-    let htmlContent = '';
-    displayItems.forEach(item => {
-        htmlContent += `<p><strong>${item.label}:</strong> ${item.value}</p>`;
-    });
-
-    return htmlContent;
-}
-
-
-// 4. Обробники подій
-profileButton.addEventListener('click', async function () {
-    const userId = localStorage.getItem("userId");
-    if (!userId) {
-        alert("Користувач не знайдений у localStorage");
-        return;
-    }
-
-    try {
-        const response = await fetch(`https://buddyup-production-88e9.up.railway.app/get_user?uid=${userId}`);
-        if (!response.ok) throw new Error("Помилка при отриманні даних користувача");
-
-        const userData = await response.json();
-        dataDisplay.innerHTML = formatUserData(userData);
-        modal.style.display = 'block';
-    } catch (error) {
-        console.error(error);
-        alert("Не вдалося завантажити дані користувача");
-    }
-});
-
-
-// Закриття вікна по кліку поза ним
-window.addEventListener('click', function (event) {
-    if (event.target === modal) {
-        modal.style.display = 'none';
-    }
-});
-
 document.addEventListener('DOMContentLoaded', () => {
     let profiles = [];
     let currentProfileIndex = 0;
@@ -83,17 +25,17 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateCardContent(cardElement, data) {
         cardElement.querySelector('#profileName').textContent = `${data.name} ${data.surname}, ${getAge(data.birthday)}`;
         cardElement.querySelector('#profileUni').textContent = data.university || '';
-        cardElement.querySelector('#profileQuote').textContent = `"${data.quote || ''}"`;
-        cardElement.querySelector('#profileDistance').textContent = data.distance || '';
+        cardElement.querySelector('#profileDescription').textContent = `"${data.description || ''}"`;
+        // cardElement.querySelector('#profileDistance').textContent = data.distance || '';
 
-        const tagsContainer = cardElement.querySelector('#profileTags');
-        tagsContainer.innerHTML = '';
-        (data.tags || []).forEach(tag => {
-            const span = document.createElement('span');
-            span.className = 'tag';
-            span.textContent = tag;
-            tagsContainer.appendChild(span);
-        });
+        // const tagsContainer = cardElement.querySelector('#profileTags');
+        // tagsContainer.innerHTML = '';
+        // (data.tags || []).forEach(tag => {
+        //     const span = document.createElement('span');
+        //     span.className = 'tag';
+        //     span.textContent = tag;
+        //     tagsContainer.appendChild(span);
+        // });
 
         // Фото
         const img = cardElement.querySelector('#profileImage');
@@ -227,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 //logout
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Отримання елементів
     const logoutButton = document.getElementById('logout-button');
     const loginButton = document.getElementById("login-button");
@@ -244,10 +186,10 @@ document.addEventListener('DOMContentLoaded', function() {
         if (profileTrigger) profileTrigger.style.display = "none";
         if (loginButton) loginButton.style.display = "inline-block";
     }
-    
+
     // --- ЛОГІКА 2: ОБРОБНИК ВИХОДУ З ПРОФІЛЮ ---
     if (logoutButton) {
-        logoutButton.addEventListener('click', function() {
+        logoutButton.addEventListener('click', function () {
 
             // 1. Видаляємо дані користувача
             localStorage.removeItem("userId");
@@ -263,114 +205,118 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-//editprofile
-document.addEventListener('DOMContentLoaded', () => {
-    // Елементи модальних вікон
-    const profileModal = document.getElementById('profile-modal');
-    const editProfileModal = document.getElementById('edit-profile-modal');
+// //editprofile
+// document.addEventListener('DOMContentLoaded', () => {
+//     // Елементи модальних вікон
+//     const profileModal = document.getElementById('profile-modal');
+//     const editProfileModal = document.getElementById('edit-profile-modal');
 
-    // Кнопки
-    const editProfileButton = document.getElementById('edit-profile-button');
-    const closeProfileButton = profileModal.querySelector('.close-button');
-    const closeEditButton = editProfileModal.querySelector('.close-edit');
-    const editProfileForm = document.getElementById('edit-profile-form');
+//     // Кнопки
+//     const editProfileButton = document.getElementById('edit-profile-button');
+//     const closeProfileButton = profileModal.querySelector('.close-button');
+//     const closeEditButton = editProfileModal.querySelector('.close-edit');
+//     const editProfileForm = document.getElementById('edit-profile-form');
 
-    // Поля форми редагування
-    const editNameInput = document.getElementById('edit-name');
-    const editSurnameInput = document.getElementById('edit-surname');
-    const editBirthdayInput = document.getElementById('edit-birthday');
-    const editPhoneInput = document.getElementById('edit-phone');
-    const editTelegramInput = document.getElementById('edit-telegram');
+//     // Поля форми редагування
+//     const editNameInput = document.getElementById('edit-name');
+//     const editSurnameInput = document.getElementById('edit-surname');
+//     const editBirthdayInput = document.getElementById('edit-birthday');
+//     const editPhoneInput = document.getElementById('edit-phone');
+//     const editTelegramInput = document.getElementById('edit-telegram');
+//     const editDescription= document.getElementById('edit-description');
 
-    // ⚠️ Приклад об'єкта поточних даних користувача. 
-    let currentUserData = {
-        email: "example@test.com", // Пошта не редагується, але зберігається для прикладу
-        name: "Олег",
-        surname: "Коваль",
-        birthday: "1990-01-01", // Формат YYYY-MM-DD
-        phone: "+380501234567",
-        telegramUsername: "@oleg_koval_tg"
-    };
-
-
-    //  Функції керування модальними вікнами
-    const openEditModal = () => {
-        // 1. Заповнення форми поточними даними (крім email та password)
-        editNameInput.value = currentUserData.name || '';
-        editSurnameInput.value = currentUserData.surname || '';
-        editBirthdayInput.value = currentUserData.birthday || '';
-        editPhoneInput.value = currentUserData.phone || '';
-        editTelegramInput.value = currentUserData.telegramUsername || '';
-
-        // 2. Закрити модальне вікно профілю
-        profileModal.style.display = 'none';
-
-        // 3. Відкрити модальне вікно редагування
-        editProfileModal.style.display = 'block';
-    };
-
-    /**
-     * Закриває вказане модальне вікно.
-     * @param {HTMLElement} modal - елемент модального вікна.
-     */
-    const closeModal = (modal) => {
-        modal.style.display = 'none';
-    };
-
-    // --- Обробники подій ---
-
-    // 1. Кнопка "Редагувати профіль" в модальному вікні профілю
-    editProfileButton.addEventListener('click', openEditModal);
-
-    // 2. Кнопка закриття (x) у вікні профілю
-    closeProfileButton.addEventListener('click', () => {
-        closeModal(profileModal);
-    });
-
-    // 3. Кнопка закриття (x) у вікні редагування
-    closeEditButton.addEventListener('click', () => {
-        closeModal(editProfileModal);
-    });
-
-    // 4. Закриття при кліку поза модальним вікном (для обох)
-    window.addEventListener('click', (event) => {
-        if (event.target === profileModal) {
-            closeModal(profileModal);
-        }
-        if (event.target === editProfileModal) {
-            closeModal(editProfileModal);
-        }
-    });
-
-    // 5. Обробка відправки форми редагування
-    editProfileForm.addEventListener('submit', (event) => {
-        event.preventDefault(); // Запобігти стандартній відправці форми
-
-        // Збір нових даних
-        const newUserData = {
-            // Пошту беремо зі старих даних, оскільки вона не редагується
-            email: currentUserData.email, 
-            name: editNameInput.value,
-            surname: editSurnameInput.value,
-            birthday: editBirthdayInput.value,
-            phone: editPhoneInput.value,
-            telegramUsername: editTelegramInput.value
-        };
-
-        // ⚠️ Тут    має бути ваш код для відправки даних на сервер (API-запит)
-        console.log("Відправка оновлених даних:", newUserData);
-
-        // Приклад: оновлення локальних даних після успішної відправки
-        currentUserData = newUserData;
+//     // ⚠️ Приклад об'єкта поточних даних користувача. 
+//     let currentUserData = {
+//         email: "example@test.com", // Пошта не редагується, але зберігається для прикладу
+//         name: "Олег",
+//         surname: "Коваль",
+//         birthday: "1990-01-01", // Формат YYYY-MM-DD
+//         phone: "+380501234567",
+//         telegramUsername: "@oleg_koval_tg"
+//     };
 
 
-        // Закриття модального вікна редагування
-        closeModal(editProfileModal);
-        
-        // Можливо, відкрити назад вікно профілю
-        profileModal.style.display = 'block'; 
+//     //  Функції керування модальними вікнами
+//     const openEditModal = () => {
+//         // 1. Заповнення форми поточними даними (крім email та password)
+//         editNameInput.value = currentUserData.name || '';
+//         editSurnameInput.value = currentUserData.surname || '';
+//         editDescription.value = currentUserData.description || '';
 
-        alert("Дані профілю успішно оновлено!");
-    });
+//         editBirthdayInput.value = currentUserData.birthday || '';
+//         editPhoneInput.value = currentUserData.phone || '';
+//         editTelegramInput.value = currentUserData.telegramUsername || '';
 
-});
+//         // 2. Закрити модальне вікно профілю
+//         profileModal.style.display = 'none';
+
+//         // 3. Відкрити модальне вікно редагування
+//         editProfileModal.style.display = 'block';
+//     };
+
+//     /**
+//      * Закриває вказане модальне вікно.
+//      * @param {HTMLElement} modal - елемент модального вікна.
+//      */
+//     const closeModal = (modal) => {
+//         modal.style.display = 'none';
+//     };
+
+//     // --- Обробники подій ---
+
+//     // 1. Кнопка "Редагувати профіль" в модальному вікні профілю
+//     editProfileButton.addEventListener('click', openEditModal);
+
+//     // 2. Кнопка закриття (x) у вікні профілю
+//     closeProfileButton.addEventListener('click', () => {
+//         closeModal(profileModal);
+//     });
+
+//     // 3. Кнопка закриття (x) у вікні редагування
+//     closeEditButton.addEventListener('click', () => {
+//         closeModal(editProfileModal);
+//     });
+
+//     // 4. Закриття при кліку поза модальним вікном (для обох)
+//     window.addEventListener('click', (event) => {
+//         if (event.target === profileModal) {
+//             closeModal(profileModal);
+//         }
+//         if (event.target === editProfileModal) {
+//             closeModal(editProfileModal);
+//         }
+//     });
+
+//     // 5. Обробка відправки форми редагування
+//     editProfileForm.addEventListener('submit', (event) => {
+//         event.preventDefault(); // Запобігти стандартній відправці форми
+
+//         // Збір нових даних
+//         const newUserData = {
+//             // Пошту беремо зі старих даних, оскільки вона не редагується
+//             email: currentUserData.email,
+//             name: editNameInput.value,
+//             surname: editSurnameInput.value,
+//             description: editDescription.value,
+//             birthday: editBirthdayInput.value,
+//             phone: editPhoneInput.value,
+//             telegramUsername: editTelegramInput.value
+//         };
+
+//         // ⚠️ Тут    має бути ваш код для відправки даних на сервер (API-запит)
+//         console.log("Відправка оновлених даних:", newUserData);//kkrtogjotrhjiotrjhoptrejiopntjonjtopnjrorjhopijfgopnjhiopjhopejniopfjhhiophnjidofpgjniodfgjniojdfgiohnjdfgionjdfgobjdfgojniodfgjnfdgn
+
+//         // Приклад: оновлення локальних даних після успішної відправки
+//         currentUserData = newUserData;
+
+
+//         // Закриття модального вікна редагування
+//         closeModal(editProfileModal);
+
+//         // Можливо, відкрити назад вікно профілю
+//         profileModal.style.display = 'block';
+
+//         alert("Дані профілю успішно оновлено!");
+//     });
+
+// });

@@ -1,4 +1,4 @@
-import { firebaseConfig } from '../keys.js';
+import { firebaseConfig } from '../../keys.js';
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
@@ -62,7 +62,18 @@ document.getElementById('signupForm').addEventListener('submit', async function 
     const birthday = document.getElementById('dateOfBirth').value;
     const phone = document.getElementById('phoneNumber').value;
     const telegramUsername = document.getElementById('telegramUsername').value;
+    const description = document.getElementById('description').value;
 
+    if (password.length < 6) {
+        e.preventDefault();
+        errorDiv.textContent = "Пароль має містити мінімум 6 символів!";
+        return;
+    }
+    if (phone.length < 8 || phone.length > 11) {
+        e.preventDefault();
+        errorDiv.textContent = "Номер телефону повинен містити 8-11 цифр!";
+        return;
+    }
     const url =
         `https://buddyup-production-88e9.up.railway.app/register` +
         `?email=${encodeURIComponent(email)}` +
@@ -72,6 +83,7 @@ document.getElementById('signupForm').addEventListener('submit', async function 
         `&phone=${encodeURIComponent(phone)}` +
         `&telegramUsername=${encodeURIComponent(telegramUsername)}` +
         `&birthday=${encodeURIComponent(birthday)}` +
+        `&description=${encodeURIComponent(description)}` +
         `&photo=${encodeURIComponent(photoURL)}`;
 
     try {
