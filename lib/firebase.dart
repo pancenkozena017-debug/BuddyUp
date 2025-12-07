@@ -52,9 +52,10 @@ class FirebaseService {
     String telegramUsername,
     String birthday,
     String photo,
+    String description
   ) async {
     print(
-      "📥 registerUser called with email=$email, name=$name, surname=$surname",
+      "📥 registerUser called with email=$email, name=$name, surname=$surname, description=$description",
     );
     try {
       final userCredential = await auth.createUserWithEmailAndPassword(
@@ -71,6 +72,7 @@ class FirebaseService {
       await userRef.set({
         'id': user.uid,
         'name': name,
+        'description': description,
         'email': email,
         'surname': surname,
         'phone': phone,
@@ -239,6 +241,7 @@ final result = rawData.entries.map((entry) {
     String telegramUsername,
     String birthday,
     String photo,
+    String description
   ) async {
     try {
       var ref = database.reference();
@@ -248,6 +251,7 @@ final result = rawData.entries.map((entry) {
       await userRef.set({
         'name': name,
         'surname': surname,
+        'description': description,
         'phone': phone,
         'telegramUsername': telegramUsername,
         'birthday': birthday,
