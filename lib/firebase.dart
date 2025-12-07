@@ -234,7 +234,6 @@ final result = rawData.entries.map((entry) {
 
   Future<Map<String, dynamic>> updateUser(
     String id,
-    String password,
     String name,
     String surname,
     String phone,
