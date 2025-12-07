@@ -15,14 +15,12 @@ Future<void> update(FirebaseService firebaseService) async {
       final phone = req.url.queryParameters['phone'];
       final birthday = req.url.queryParameters['birthday'];
       final telegramUsername = req.url.queryParameters['telegramUsername'];
-      final photo = req.url.queryParameters['photo']??'aboba';
 
       final missing = <String>[];
       if (id == null) missing.add('id');
       if (password == null) missing.add('password');
       if (name == null) missing.add('name');
       if (surname == null) missing.add('surname');
-      if (phone == null) missing.add('phone');
       if (birthday == null) missing.add('birthday');
       if (telegramUsername == null) missing.add('telegramUsername');
       if (description == null) missing.add('description');
@@ -43,7 +41,6 @@ Future<void> update(FirebaseService firebaseService) async {
         phone!,
         telegramUsername!,
         birthday!,
-        photo!,
         description!,
       );
 
