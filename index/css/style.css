@@ -145,7 +145,6 @@ header {
     color: var(--secondary);
 }
 
-/* ВСТАВИТИ У ВАШ style.css */
 /* Стилі для основного контейнера модального вікна */
 .modal {
     display: none; /* КЛЮЧОВЕ: Приховуємо вікно за замовчуванням */
@@ -199,6 +198,28 @@ header {
     color: #555;
 }
 
+.modal-content {
+    position: relative;
+    padding-bottom: 60px;
+}
+
+#logout-button {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #dc3545;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+#logout-button:hover {
+    background-color: #c82333;
+}
 
 /* Desktop Navigation */
 nav {
@@ -242,7 +263,7 @@ nav a:hover {
 }
 
 .button {
-    padding: 8px 16px;
+    padding: 8px 13px;
     border: none;
     border-radius: var(--radius);
     font-size: 14px;
@@ -274,7 +295,7 @@ nav a:hover {
 }
 
 .button-lg {
-    padding: 12px 24px;
+    padding: 7px 14px;
     font-size: 16px;
 }
 

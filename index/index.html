@@ -31,7 +31,9 @@
                     <a href="#likes">
                         <button id="likes-button" class="button button-outline">❤️ Хто тебе лайкнув</button>
                     </a>
-
+                    <a href="#matches">
+                        <button id="matches-button" class="button button-outline">💕 Мої матчі</button>
+                    </a>
                     <button id="profile-button-trigger" class="button button-outline">👤 Мій профіль</button>
 
                     <a href="../login/login.html">
@@ -50,6 +52,7 @@
         </div>
     </header>
 
+    <!--my profile-->
     <div id="profile-modal" class="modal">
         <div class="modal-content">
             <span class="close-button">&times;</span>
@@ -59,11 +62,47 @@
             <div id="profile-data-display" class="profile-data">
             </div>
 
+            <button id="edit-profile-button" class="btn btn-primary">Редагувати профіль</button>
+
+            <button id="logout-button" class="btn btn-danger">Вийти з профілю</button>
+
         </div>
     </div>
+
+    <!--editprofile-->
+    <div id="edit-profile-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-edit">&times;</span>
+
+        <h2>✏️ Редагування профілю</h2>
+
+        <form id="edit-profile-form">
+
+            <label>Ім'я:</label>
+            <input type="text" id="edit-name">
+
+            <label>Прізвище:</label>
+            <input type="text" id="edit-surname">
+
+            <label>Вік:</label>
+            <input type="number" id="edit-age">
+
+            <label>Група:</label>
+            <input type="text" id="edit-group">
+
+            <label>Факультет:</label>
+            <input type="text" id="edit-faculty">
+
+            <button type="submit" class="btn btn-success">Зберегти зміни</button>
+        </form>
+    </div>
+    </div>
+
+
+    <!--likes-->
     <div id="likes-modal" class="modal">
         <div class="modal-content">
-            <span class="close-likes-button">&times;</span>
+            <span class="close-button">&times;</span>
 
             <h2>❤️ Хто тебе лайкнув</h2>
 
@@ -72,6 +111,22 @@
             </div>
         </div>
     </div>
+
+
+    <!--matches-->
+    <div id="matches-modal" class="modal">
+        <div class="modal-content matches-modal-content">
+            <span class="close-button">&times;</span>
+
+            <h2 class="matches-title">💕 Мої матчі</h2>
+            <p class="matches-subtitle">Люди з взаємними лайками</p>
+
+            <div id="matches-list" class="matches-list">
+                <!-- через JS -->
+            </div>
+        </div>
+    </div>
+
 
     <!-- HERO SECTION -->
     <section class="hero">

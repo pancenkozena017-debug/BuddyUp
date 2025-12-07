@@ -15,8 +15,18 @@ likesButton.addEventListener("click", () => {
 });
 
 // Закрити модал
-closeLikesButton.addEventListener("click", () => {
-    likesModal.style.display = "none";
+const closeButtons = document.querySelectorAll('.close-button');
+
+
+closeButtons.forEach(button => {
+
+    button.addEventListener('click', function() {
+        // (це буде або #profile-modal, або #likes-modal)
+        const modalToClose = this.closest('.modal');
+        if (modalToClose) {
+            modalToClose.style.display = 'none';
+        }
+    });
 });
 
 // Закривання поза модалкою

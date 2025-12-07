@@ -49,10 +49,6 @@ profileButton.addEventListener('click', async function () {
     }
 });
 
-// Закриття вікна по кнопці "x"
-closeButton.addEventListener('click', function () {
-    modal.style.display = 'none';
-});
 
 // Закриття вікна по кліку поза ним
 window.addEventListener('click', function (event) {
@@ -230,13 +226,15 @@ document.addEventListener('DOMContentLoaded', () => {
     })();
 });
 
-
-document.addEventListener("DOMContentLoaded", () => {
-    const userId = localStorage.getItem("userId");
-
+//logout
+document.addEventListener('DOMContentLoaded', function() {
+    // Отримання елементів
+    const logoutButton = document.getElementById('logout-button');
     const loginButton = document.getElementById("login-button");
     const profileTrigger = document.getElementById("profile-button-trigger");
 
+    // --- ЛОГІКА 1: ВИЗНАЧЕННЯ СТАНУ ПРИ ЗАВАНТАЖЕННІ СТОРІНКИ ---
+    const userId = localStorage.getItem("userId");
     if (userId) {
         // Є userId → показуємо профіль
         if (profileTrigger) profileTrigger.style.display = "inline-block";
@@ -246,4 +244,64 @@ document.addEventListener("DOMContentLoaded", () => {
         if (profileTrigger) profileTrigger.style.display = "none";
         if (loginButton) loginButton.style.display = "inline-block";
     }
+    
+    // --- ЛОГІКА 2: ОБРОБНИК ВИХОДУ З ПРОФІЛЮ ---
+    if (logoutButton) {
+        logoutButton.addEventListener('click', function() {
+
+            // 1. Видаляємо дані користувача
+            localStorage.removeItem("userId");
+            alert("Ви успішно вийшли з профілю.");
+
+            if (profileModal) {
+                profileModal.style.display = "none";
+            }
+
+            // 2. ОНОВЛЮЄМО DOM, щоб показати кнопку "Увійти"
+            if (profileTrigger) profileTrigger.style.display = "none";
+            if (loginButton) loginButton.style.display = "inline-block";
+
+        });
+    }
 });
+
+
+//editprofile
+
+// Відкрити модал редагування
+document.getElementById("edit-profile-button").onclick = function () {
+    const data = JSON.parse(localStorage.getItem("userData"));
+
+    document.getElementById("edit-name").value = data.name || "";
+    document.getElementById("edit-surname").value = data.surname || "";
+    document.getElementById("edit-birthday").value = data.birthday || "";
+    document.getElementById("edit-phone").value = data.phone || "";
+    document.getElementById("edit-telegram").value = data.telegramUsername || "";
+
+    document.getElementById("edit-profile-modal").style.display = "block";
+};
+
+// Закрити модал
+document.querySelector(".close-edit").onclick = function () {
+    document.getElementById("edit-profile-modal").style.display = "none";
+};
+
+// Зберегти зміни
+document.getElementById("edit-profile-form").onsubmit = function (e) {
+    e.preventDefault();
+
+    let data = JSON.parse(localStorage.getItem("userData"));
+
+    data.name = document.getElementById("edit-name").value;
+    data.surname = document.getElementById("edit-surname").value;
+    data.birthday = document.getElementById("edit-birthday").value;
+    data.phone = document.getElementById("edit-phone").value;
+    data.telegramUsername = document.getElementById("edit-telegram").value;
+
+    localStorage.setItem("userData", JSON.stringify(data));
+
+    updateProfileDisplay();
+
+    document.getElementById("edit-profile-modal").style.display = "none";
+};
+
