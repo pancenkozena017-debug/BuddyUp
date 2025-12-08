@@ -3,12 +3,17 @@ const path = require('path');
 
 const app = express();
 
-// Віддаємо всі статичні файли з поточної папки (buddy_up)
-app.use(express.static(__dirname));
-
-// Корінь "/" віддає index.html
+// Маршрути
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index/index.html'));
+});
+
+app.get('/login', (req, res) => {
+  res.sendFile(path.join(__dirname, 'login/login.html'));
+});
+
+app.get('/signup', (req, res) => {
+  res.sendFile(path.join(__dirname, 'signup/signup.html'));
 });
 
 const PORT = process.env.PORT || 3000;
