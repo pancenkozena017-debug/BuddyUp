@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BuddyUp - Платформа для студентів</title>
     <link href="css/style.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 </head>
 
@@ -32,7 +33,7 @@
                         <button id="likes-button" class="button button-outline">❤️ Хто тебе лайкнув</button>
                     </a>
                     <a href="#matches">
-                        <button id="matches-button" class="button button-outline">💕 Мої матчі</button>
+                        <button id="matches-button" class="button button-outline">💕 Мої метчі</button>
                     </a>
                     <button id="profile-button-trigger" class="button button-outline">👤 Мій профіль</button>
 
@@ -57,7 +58,7 @@
         <div class="modal-content">
             <span class="close-button">&times;</span>
 
-            <h2>👤 Дані  Профілю</h2>
+            <h2>👤 Дані Профілю</h2>
 
             <div id="profile-data-display" class="profile-data">
             </div>
@@ -259,39 +260,36 @@
 
     <!-- MAP SECTION -->
     <section class="map" id="map">
-    <div class="container">
-        <div class="section-title">
-            <h2><span class="text-primary">Карта</span> твоїх тусовок</h2>
-            <p class="section-subtitle">
-                Вбудована карта зі всіма та закладами поблизу
-            </p>
-        </div>
-
-        <div class="map-container">
-            <div class="map-visual" style="height: 500px; border: 3px solid #ccc; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-                <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m12!1m8!1m3!1d41173.251759340135!2d24.011034462328496!3d49.8362897980237!3m2!1i1024!2i768!4f13.1!2m1!1z0J_QsNCx0LgsINCx0LDRgNC4!5e0!3m2!1suk!2sua!4v1765138282783!5m2!1suk!2sua"
-                    width="100%" 
-                    height="100%" 
-                    style="border:0;" 
-                    allowfullscreen="" 
-                    loading="lazy" 
-                    referrerpolicy="no-referrer-when-downgrade">
-                </iframe>
+        <div class="container">
+            <div class="section-title">
+                <h2><span class="text-primary">Карта</span> твоїх тусовок</h2>
+                <p class="section-subtitle">
+                    Вбудована карта зі всіма та закладами поблизу
+                </p>
             </div>
 
+            <div class="map-container">
+                <div class="map-visual"
+                    style="height: 500px; border: 3px solid #ccc; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m12!1m8!1m3!1d41173.251759340135!2d24.011034462328496!3d49.8362897980237!3m2!1i1024!2i768!4f13.1!2m1!1z0J_QsNCx0LgsINCx0LDRgNC4!5e0!3m2!1suk!2sua!4v1765138282783!5m2!1suk!2sua"
+                        width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+
             </div>
-        
-        <div class="homer-comment">
-            <div class="homer-emoji">🍩</div>
-            <div class="homer-text">
-                <div class="homer-author">Homer Simpson каже:</div>
-                <div class="homer-quote">
-                    "Mmmm... beer map... 🍺 Це найкраща карта яку я бачив після карти пончикових!"
+
+            <div class="homer-comment">
+                <div class="homer-emoji">🍩</div>
+                <div class="homer-text">
+                    <div class="homer-author">Homer Simpson каже:</div>
+                    <div class="homer-quote">
+                        "Mmmm... beer map... 🍺 Це найкраща карта яку я бачив після карти пончикових!"
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     </section>
 
     <!-- CTA SECTION -->
@@ -311,12 +309,8 @@
                     <button class="button button-primary button-lg">
                         📱 Відкрити веб-версію
                     </button>
-                    <button class="button button-outline button-lg">
-                        ⬇️ Завантажити на iOS
-                    </button>
                 </div>
 
-                <p class="cta-footnote">Android-версія скоро буде доступна 🚀</p>
 
                 <div class="cta-divider">
                     <div class="quotes-grid">

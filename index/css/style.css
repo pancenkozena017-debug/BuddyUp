@@ -1373,3 +1373,10 @@ footer {
     background-color: #007bff;
     color: white;
 }
+
+#navbar {
+    display: none; /* приховане за замовчуванням */
+}
+#navbar.active {
+    display: block; /* показуємо при активному класі */
+}
