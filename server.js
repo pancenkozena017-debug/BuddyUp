@@ -6,8 +6,8 @@ const app = express();
 // Віддаємо всі статичні файли з поточної папки
 app.use(express.static(__dirname));
 
-// Для будь-якого GET запиту віддаємо index.html
-app.get('*', (req, res) => {
+// Для будь-якого GET запиту, який не збігається зі статичними файлами
+app.all(/.*/, (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
