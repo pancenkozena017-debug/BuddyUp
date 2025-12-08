@@ -25,7 +25,8 @@ if (!PORT) {
   console.error('Error: process.env.PORT is not set');
   process.exit(1);
 }
-
+console.log('Server directory:', __dirname);
+console.log('PORT from env:', process.env.PORT);
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Frontend running on 0.0.0.0:${PORT}`);
 });
