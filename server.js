@@ -17,6 +17,10 @@ app.get('/signup', (req, res) => {
 });
 
 // Використовуємо порт із Railway
-const PORT = process.env.PORT || 3000;
-const HOST = '0.0.0.0'; // дуже важливо для хостингу на Railway
-app.listen(PORT, HOST, () => console.log(`Frontend running on ${HOST}:${PORT}`));
+const PORT = process.env.PORT; // обов'язково з ENV
+if (!PORT) {
+  console.error('Error: process.env.PORT is not set');
+  process.exit(1);
+}
+
+app.listen(PORT, '0.0.0.0', () => console.log(`Frontend running on 0.0.0.0:${PORT}`));
