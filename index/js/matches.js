@@ -3,18 +3,18 @@ const matchesButton = document.getElementById("matches-button");
 const matchesList = document.getElementById("matches-list");
 const closeMatchesButton = document.querySelector(".close-matches-button");
 
-// Відкрити модал
+
 matchesButton.addEventListener("click", () => {
     matchesModal.style.display = "block";
     loadMatches();
 });
 
-// Закрити модал
+
 closeMatchesButton.addEventListener("click", () => {
     matchesModal.style.display = "none";
 });
 
-// Закривання поза модалкою
+
 window.addEventListener("click", (e) => {
     if (e.target === matchesModal) {
         matchesModal.style.display = "none";
@@ -43,10 +43,10 @@ async function loadMatches() {
         matchesList.innerHTML = "";
 
         for (const match of matchData) {
-            // Беремо ID іншого користувача
+
             const userId = match.with;
 
-            // Запитуємо дані цього користувача
+
             const userRes = await fetch(
                 `https://buddyup-production-88e9.up.railway.app/get_user?uid=${userId}`
             );
@@ -128,13 +128,11 @@ async function showProfile(uid, isOwn = false) {
         const dataDisplay = document.getElementById('profile-data-display');
         dataDisplay.innerHTML = formatUserData(userData);
 
-        // Відображаємо або ховаємо кнопки
         document.getElementById('edit-profile-button').style.display = isOwn ? 'inline-block' : 'none';
         document.getElementById('logout-button').style.display = isOwn ? 'inline-block' : 'none';
 
         profileModal.style.display = 'block';
 
-        // Зберігаємо дані для редагування
         if (isOwn) window.currentUserData = userData;
 
     } catch (err) {

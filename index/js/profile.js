@@ -1,26 +1,20 @@
-// ==============================
 //   ПРОФІЛЬ
-// ==============================
 
-// Елементи модалки профілю
 const profileButton = document.getElementById('profile-button-trigger');
 const profileModal = document.getElementById('profile-modal');
 const closeProfileButton = document.querySelector('.close-button');
 const dataDisplay = document.getElementById('profile-data-display');
 document.addEventListener('DOMContentLoaded', function () {
-    // Отримання елементів
     const logoutButton = document.getElementById('logout-button');
     const loginButton = document.getElementById("login-button");
     const profileTrigger = document.getElementById("profile-button-trigger");
 
-    // --- ЛОГІКА 1: ВИЗНАЧЕННЯ СТАНУ ПРИ ЗАВАНТАЖЕННІ СТОРІНКИ ---
+
     const userId = localStorage.getItem("userId");
     if (userId) {
-        // Є userId → показуємо профіль
         if (profileTrigger) profileTrigger.style.display = "inline-block";
         if (loginButton) loginButton.style.display = "none";
     } else {
-        // Нема userId → показуємо логін
         if (profileTrigger) profileTrigger.style.display = "none";
         if (loginButton) loginButton.style.display = "inline-block";
     }
@@ -48,22 +42,20 @@ profileButton.addEventListener('click', () => {
 });
 
 
-// Закриття профільної модалки
+
 closeProfileButton.addEventListener('click', () => {
     profileModal.style.display = 'none';
 });
 
 
-// ==============================
-//   РЕДАГУВАННЯ ПРОФІЛЮ
-// ==============================
+//РЕДАГУВАННЯ ПРОФІЛЮ
 
 const editProfileModal = document.getElementById('edit-profile-modal');
 const editProfileButton = document.getElementById('edit-profile-button');
 const closeEditButton = document.querySelector('.close-edit');
 const editProfileForm = document.getElementById('edit-profile-form');
 
-// Поля форми
+
 const editNameInput = document.getElementById('edit-name');
 const editSurnameInput = document.getElementById('edit-surname');
 const editBirthdayInput = document.getElementById('edit-birthday');
@@ -71,7 +63,7 @@ const editPhoneInput = document.getElementById('edit-phone');
 const editTelegramInput = document.getElementById('edit-telegram');
 const editDescription = document.getElementById('edit-description');
 
-// Відкрити модалку редагування
+
 editProfileButton.addEventListener('click', () => {
     const data = window.currentUserData;
 
@@ -86,12 +78,12 @@ editProfileButton.addEventListener('click', () => {
     editProfileModal.style.display = 'block';
 });
 
-// Закрити редактор
+
 closeEditButton.addEventListener('click', () => {
     editProfileModal.style.display = 'none';
 });
 
-// Закрити при кліку поза модалкою
+
 window.addEventListener('click', e => {
     if (e.target === profileModal) profileModal.style.display = 'none';
     if (e.target === editProfileModal) editProfileModal.style.display = 'none';
@@ -132,7 +124,7 @@ editProfileForm.addEventListener('submit', async (event) => {
 
         alert("Дані профілю оновлено!");
 
-        // Оновити локальні дані
+
         window.currentUserData = newUserData;
 
         editProfileModal.style.display = 'none';
@@ -157,13 +149,13 @@ async function showProfile(uid, isOwn = false) {
         const dataDisplay = document.getElementById('profile-data-display');
         dataDisplay.innerHTML = formatUserData(userData);
 
-        // Відображаємо або ховаємо кнопки
+
         document.getElementById('edit-profile-button').style.display = isOwn ? 'inline-block' : 'none';
         document.getElementById('logout-button').style.display = isOwn ? 'inline-block' : 'none';
 
         profileModal.style.display = 'block';
 
-        // Зберігаємо дані для редагування
+    
         if (isOwn) window.currentUserData = userData;
 
     } catch (err) {

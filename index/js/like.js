@@ -1,27 +1,26 @@
-// ==================== ЛАЙКИ ==================== //
+// ЛАЙКИ //
 
 const likesModal = document.getElementById("likes-modal");
 const likesButton = document.getElementById("likes-button");
 const closeLikesButton = document.querySelector(".close-likes-button");
 const likesList = document.getElementById("likes-list");
 
-// Твій uid з кешу
+
 const currentUid = localStorage.getItem("userId");
 
-// Відкрити модал
+
 likesButton.addEventListener("click", () => {
     likesModal.style.display = "block";
     loadLikes();
 });
 
-// Закрити модал
+
 const closeButtons = document.querySelectorAll('.close-button');
 
 
 closeButtons.forEach(button => {
 
     button.addEventListener('click', function() {
-        // (це буде або #profile-modal, або #likes-modal)
         const modalToClose = this.closest('.modal');
         if (modalToClose) {
             modalToClose.style.display = 'none';
@@ -29,14 +28,14 @@ closeButtons.forEach(button => {
     });
 });
 
-// Закривання поза модалкою
+
 window.addEventListener("click", (e) => {
     if (e.target === likesModal) {
         likesModal.style.display = "none";
     }
 });
 
-// ============== LOAD LIKES ==============
+// LOAD LIKES 
 async function loadLikes() {
     if (!currentUid) {
         likesList.innerHTML = "<p>❌ Ви не увійшли</p>";
@@ -92,14 +91,13 @@ async function loadLikes() {
     }
 }
 
-// Автооновлення
 setInterval(() => {
     if (likesModal.style.display === "block") {
         loadLikes();
     }
 }, 60000);
 
-// ============== BUTTON HANDLERS ==============
+//BUTTON HANDLERS 
 function attachButtons() {
 
     document.querySelectorAll(".reject-btn").forEach(btn => {
@@ -125,7 +123,7 @@ function attachButtons() {
     // Accept
     document.querySelectorAll(".accept-btn").forEach(btn => {
         btn.addEventListener("click", async () => {
-            const fromUid = btn.dataset.uid;// тут така сама швидше за все проблема , але тут вопше нічо не пише ніяку помилку і ніякий 
+            const fromUid = btn.dataset.uid;
 
             const url =
                 `https://buddyup-production-88e9.up.railway.app/sendLike` +

@@ -5,14 +5,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const initialCard = document.querySelector('.profile-card');
 
-    // Функція для завантаження користувачів з сервера
+    // Завантаження користувачів з сервера
     async function loadUsers() {
         try {
             const response = await fetch("https://buddyup-production-88e9.up.railway.app/get_users");
             if (!response.ok) throw new Error("Не вдалося завантажити користувачів");
 
             const users = await response.json();
-            // Перемішуємо список
             profiles = users.sort(() => Math.random() - 0.5);
             currentProfileIndex = 0;
         } catch (error) {
@@ -21,28 +20,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Функція для оновлення картки
+    // Оновлення картки
     function updateCardContent(cardElement, data) {
         cardElement.querySelector('#profileName').textContent = `${data.name} ${data.surname}, ${getAge(data.birthday)}`;
         cardElement.querySelector('#profileUni').textContent = data.university || '';
         cardElement.querySelector('#profileDescription').textContent = `"${data.description || ''}"`;
-        // cardElement.querySelector('#profileDistance').textContent = data.distance || '';
-
-        // const tagsContainer = cardElement.querySelector('#profileTags');
-        // tagsContainer.innerHTML = '';
-        // (data.tags || []).forEach(tag => {
-        //     const span = document.createElement('span');
-        //     span.className = 'tag';
-        //     span.textContent = tag;
-        //     tagsContainer.appendChild(span);
-        // });
-
-        // Фото
         const img = cardElement.querySelector('#profileImage');
         if (img && data.photo) img.src = data.photo;
     }
 
-    // Допоміжна функція для обчислення віку
     function getAge(birthday) {
         if (!birthday) return '';
         const birthDate = new Date(birthday);
@@ -121,7 +107,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.error(`Помилка при ${direction}:`, error);
                 }
 
-                // Переходимо до наступної картки
                 currentProfileIndex++;
                 if (currentProfileIndex >= profiles.length) {
                     await loadUsers();
@@ -140,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
 
-        // Прив'язка обробників для свайпу
+ 
         card.addEventListener('mousedown', startDrag);
         document.addEventListener('mousemove', drag);
         document.addEventListener('mouseup', endDrag);
@@ -149,18 +134,16 @@ document.addEventListener('DOMContentLoaded', () => {
         document.addEventListener('touchmove', drag, { passive: true });
         document.addEventListener('touchend', endDrag);
 
-        // Прив'язка кнопок
+ 
         card.querySelector('.button-like').addEventListener('click', () => handleButtonClick('like'));
         card.querySelector('.button-reject').addEventListener('click', () => handleButtonClick('reject'));
     }
 
-    // Клонування шаблону картки
     const cardTemplate = initialCard.cloneNode(true);
     cardTemplate.classList.remove('profile-card');
     cardTemplate.classList.add('profile-card-template');
     initialCard.parentNode.insertBefore(cardTemplate, initialCard);
 
-    // Старт: завантажуємо користувачів і налаштовуємо першу картку
     (async () => {
         await loadUsers();
         updateCardContent(initialCard, profiles[currentProfileIndex]);
@@ -170,12 +153,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 //logout
 document.addEventListener('DOMContentLoaded', function () {
-    // Отримання елементів
     const logoutButton = document.getElementById('logout-button');
     const loginButton = document.getElementById("login-button");
     const profileTrigger = document.getElementById("profile-button-trigger");
 
-    // --- ЛОГІКА 1: ВИЗНАЧЕННЯ СТАНУ ПРИ ЗАВАНТАЖЕННІ СТОРІНКИ ---
     const userId = localStorage.getItem("userId");
     if (userId) {
         // Є userId → показуємо профіль
@@ -187,15 +168,15 @@ document.addEventListener('DOMContentLoaded', function () {
         if (loginButton) loginButton.style.display = "inline-block";
     }
 
-    // --- ЛОГІКА 2: ОБРОБНИК ВИХОДУ З ПРОФІЛЮ ---
+
     if (logoutButton) {
         logoutButton.addEventListener('click', function () {
 
-            // 1. Видаляємо дані користувача
+
             localStorage.removeItem("userId");
             alert("Ви успішно вийшли з профілю.");
 
-            // 2. ОНОВЛЮЄМО DOM, щоб показати кнопку "Увійти"
+
             if (profileTrigger) profileTrigger.style.display = "none";
             if (loginButton) loginButton.style.display = "inline-block";
             if (profileModal) profileModal.style.display = "none"
@@ -210,119 +191,3 @@ const navbar = document.getElementById('navbar');
 menuToggle.addEventListener('click', () => {
     navbar.classList.toggle('active');
 });
-
-// //editprofile
-// document.addEventListener('DOMContentLoaded', () => {
-//     // Елементи модальних вікон
-//     const profileModal = document.getElementById('profile-modal');
-//     const editProfileModal = document.getElementById('edit-profile-modal');
-
-//     // Кнопки
-//     const editProfileButton = document.getElementById('edit-profile-button');
-//     const closeProfileButton = profileModal.querySelector('.close-button');
-//     const closeEditButton = editProfileModal.querySelector('.close-edit');
-//     const editProfileForm = document.getElementById('edit-profile-form');
-
-//     // Поля форми редагування
-//     const editNameInput = document.getElementById('edit-name');
-//     const editSurnameInput = document.getElementById('edit-surname');
-//     const editBirthdayInput = document.getElementById('edit-birthday');
-//     const editPhoneInput = document.getElementById('edit-phone');
-//     const editTelegramInput = document.getElementById('edit-telegram');
-//     const editDescription= document.getElementById('edit-description');
-
-//     // ⚠️ Приклад об'єкта поточних даних користувача. 
-//     let currentUserData = {
-//         email: "example@test.com", // Пошта не редагується, але зберігається для прикладу
-//         name: "Олег",
-//         surname: "Коваль",
-//         birthday: "1990-01-01", // Формат YYYY-MM-DD
-//         phone: "+380501234567",
-//         telegramUsername: "@oleg_koval_tg"
-//     };
-
-
-//     //  Функції керування модальними вікнами
-//     const openEditModal = () => {
-//         // 1. Заповнення форми поточними даними (крім email та password)
-//         editNameInput.value = currentUserData.name || '';
-//         editSurnameInput.value = currentUserData.surname || '';
-//         editDescription.value = currentUserData.description || '';
-
-//         editBirthdayInput.value = currentUserData.birthday || '';
-//         editPhoneInput.value = currentUserData.phone || '';
-//         editTelegramInput.value = currentUserData.telegramUsername || '';
-
-//         // 2. Закрити модальне вікно профілю
-//         profileModal.style.display = 'none';
-
-//         // 3. Відкрити модальне вікно редагування
-//         editProfileModal.style.display = 'block';
-//     };
-
-//     /**
-//      * Закриває вказане модальне вікно.
-//      * @param {HTMLElement} modal - елемент модального вікна.
-//      */
-//     const closeModal = (modal) => {
-//         modal.style.display = 'none';
-//     };
-
-//     // --- Обробники подій ---
-
-//     // 1. Кнопка "Редагувати профіль" в модальному вікні профілю
-//     editProfileButton.addEventListener('click', openEditModal);
-
-//     // 2. Кнопка закриття (x) у вікні профілю
-//     closeProfileButton.addEventListener('click', () => {
-//         closeModal(profileModal);
-//     });
-
-//     // 3. Кнопка закриття (x) у вікні редагування
-//     closeEditButton.addEventListener('click', () => {
-//         closeModal(editProfileModal);
-//     });
-
-//     // 4. Закриття при кліку поза модальним вікном (для обох)
-//     window.addEventListener('click', (event) => {
-//         if (event.target === profileModal) {
-//             closeModal(profileModal);
-//         }
-//         if (event.target === editProfileModal) {
-//             closeModal(editProfileModal);
-//         }
-//     });
-
-//     // 5. Обробка відправки форми редагування
-//     editProfileForm.addEventListener('submit', (event) => {
-//         event.preventDefault(); // Запобігти стандартній відправці форми
-
-//         // Збір нових даних
-//         const newUserData = {
-//             // Пошту беремо зі старих даних, оскільки вона не редагується
-//             email: currentUserData.email,
-//             name: editNameInput.value,
-//             surname: editSurnameInput.value,
-//             description: editDescription.value,
-//             birthday: editBirthdayInput.value,
-//             phone: editPhoneInput.value,
-//             telegramUsername: editTelegramInput.value
-//         };
-
-//         // ⚠️ Тут    має бути ваш код для відправки даних на сервер (API-запит)
-//         console.log("Відправка оновлених даних:", newUserData);//kkrtogjotrhjiotrjhoptrejiopntjonjtopnjrorjhopijfgopnjhiopjhopejniopfjhhiophnjidofpgjniodfgjniojdfgiohnjdfgionjdfgobjdfgojniodfgjnfdgn
-
-//         // Приклад: оновлення локальних даних після успішної відправки
-//         currentUserData = newUserData;
-
-
-//         // Закриття модального вікна редагування
-//         closeModal(editProfileModal);
-
-//         // Можливо, відкрити назад вікно профілю
-//         profileModal.style.display = 'block';
-
-//         alert("Дані профілю успішно оновлено!");
-//     });
-
-// });

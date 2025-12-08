@@ -38,8 +38,8 @@ document.getElementById('photo').addEventListener('change', function (e) {
 document.getElementById('signupForm').addEventListener('submit', async function (e) {
     e.preventDefault();
 
-    const errorDiv = document.getElementById('signupError'); // елемент для повідомлень
-    errorDiv.textContent = ""; // очищаємо попередні повідомлення
+    const errorDiv = document.getElementById('signupError');
+    errorDiv.textContent = ""; 
 
     const file = document.getElementById('photo').files[0];
     let photoURL = "";
@@ -101,7 +101,7 @@ document.getElementById('signupForm').addEventListener('submit', async function 
             data.message === "Registered successfully!";
 
         if (isSuccess) {
-            const userId = serverData.uid; // <-- ось тут правильний userId
+            const userId = serverData.uid; 
 
             if (!userId) {
                 errorDiv.textContent = "❌ Сервер не повернув uid!";

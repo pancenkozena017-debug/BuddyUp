@@ -5,7 +5,6 @@
 }
 
 :root {
-    /* Colors - Evangelion Purple + Beer Gold */
     --primary: #6B45CC;
     --primary-light: #8855FF;
     --primary-dark: #4A2A9E;
@@ -14,7 +13,7 @@
     --accent: #FF6B35;
     --accent-light: #FF8855;
 
-    /* Neutrals */
+  
     --bg-light: #FAFAF9;
     --bg-dark: #1A1A1A;
     --text-light: #262626;
@@ -26,49 +25,34 @@
     --transition: 0.3s ease;
 }
 
-/* ==================================== */
-/* SWIPE MECHANICS CSS */
-/* ==================================== */
 
 /* Основні стилі картки */
 .profile-card {
-    /* Робить картку готовою до перетягування */
     position: relative;
     cursor: grab;
-    /* Курсор "тягни" */
 
-    /* Додаємо плавний перехід для трансформацій та прозорості. 
-       Використовуємо функцію кубічного Безьє для "пружного" ефекту при поверненні. */
     transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55),
         opacity 0.5s ease-out;
 
-    /* Оптимізація для апаратного прискорення анімації */
     will-change: transform, opacity;
 }
 
-/* Стан, коли користувач активно тягне картку */
+
 .profile-card.is-dragging {
-    /* Ключовий момент: вимикаємо перехід, щоб картка миттєво слідувала за курсором/пальцем */
     transition: none;
     cursor: grabbing;
-    /* Курсор "тягну" */
 }
 
-/* Стан "Лайк" (картка відлітає праворуч) */
 .profile-card.swipe-like {
-    /* Зміщуємо далеко праворуч (1000px), повертаємо та робимо прозорою */
     transform: translateX(1000px) rotate(30deg) scale(0.1);
     opacity: 0;
 }
 
-/* Стан "Пропустити" (картка відлітає ліворуч) */
 .profile-card.swipe-reject {
-    /* Зміщуємо далеко ліворуч, повертаємо у протилежний бік та робимо прозорою */
     transform: translateX(-1000px) rotate(-30deg) scale(0.1);
     opacity: 0;
 }
 
-/* Стиль для шаблону картки, який використовується для клонування, має бути прихований */
 .profile-card-template {
     display: none !important;
 }
@@ -154,10 +138,9 @@ header {
     color: var(--secondary);
 }
 
-/* Стилі для основного контейнера модального вікна */
+/* Основний контейнер модального вікна */
 .modal {
     display: none;
-    /* КЛЮЧОВЕ: Приховуємо вікно за замовчуванням */
     position: fixed;
     z-index: 1000;
     left: 0;
@@ -168,7 +151,6 @@ header {
     background-color: rgba(0, 0, 0, 0.6);
 }
 
-/* Стилі для вмісту модального вікна */
 .modal-content {
     background-color: #ffffff;
     margin: 5% auto;
@@ -179,7 +161,6 @@ header {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
 }
 
-/* Стилі для кнопки закриття */
 .close-button {
     color: #aaa;
     float: right;
@@ -195,7 +176,6 @@ header {
     cursor: pointer;
 }
 
-/* Стилі для відображення даних */
 .profile-data p {
     margin: 8px 0;
     border-bottom: 1px dashed #eee;
@@ -1228,7 +1208,7 @@ footer {
 }
 
 
-/* --- СТИЛІ ФОРМИ РЕДАГУВАННЯ (#edit-profile-modal) --- */
+/* Форма редагування */
 
 #edit-profile-form label {
     display: block;
@@ -1256,7 +1236,6 @@ footer {
     box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
 }
 
-/* --- ЗАГАЛЬНІ СТИЛІ КНОПОК (.btn) --- */
 
 .btn {
     padding: 10px 20px;
@@ -1269,9 +1248,6 @@ footer {
     margin-top: 20px;
 }
 
-/* --- СПЕЦИФІЧНІ СТИЛІ КНОПОК --- */
-
-/* Кнопка "Редагувати профіль" */
 #edit-profile-button.btn-primary {
     background-color: #007bff;
     color: white;
@@ -1284,7 +1260,6 @@ footer {
     transform: translateY(-1px);
 }
 
-/* Кнопка "Зберегти зміни" */
 .btn-success {
     background-color: #28a745;
     color: white;
@@ -1294,7 +1269,6 @@ footer {
     background-color: #1e7e34;
 }
 
-/* Кнопка "Вийти з профілю" */
 #logout-button.btn-danger {
     background-color: #dc3545;
     color: white;
@@ -1305,7 +1279,6 @@ footer {
     background-color: #bd2130;
 }
 
-/* --- КНОПКИ ЗАКРИТТЯ (x) --- */
 
 .close-button,
 .close-edit {
@@ -1332,7 +1305,6 @@ footer {
     gap: 15px;
 }
 
-/* Ліва частина: фото */
 .match-left .match-avatar {
     width: 80px;
     height: 80px;
@@ -1340,13 +1312,11 @@ footer {
     object-fit: cover;
 }
 
-/* Права частина */
 .match-right {
     display: flex;
     flex-direction: column;
 }
 
-/* Посилання профілю */
 .match-profile-link {
     font-weight: bold;
     color: #007bff;
@@ -1355,7 +1325,6 @@ footer {
     cursor: pointer;
 }
 
-/* Рейтинг */
 .match-rating span {
     display: inline-block;
     width: 25px;
@@ -1375,8 +1344,8 @@ footer {
 }
 
 #navbar {
-    display: none; /* приховане за замовчуванням */
+    display: none;
 }
 #navbar.active {
-    display: block; /* показуємо при активному класі */
+    display: block;
 }

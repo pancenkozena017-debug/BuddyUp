@@ -20,7 +20,6 @@ document.getElementById('loginForm').addEventListener('submit', async function (
 
     console.log("✅ Login Response:", data);
 
-    // сервер повертає ПЛОСКИЙ JSON
     const serverData = data;
 
     const isSuccess =
