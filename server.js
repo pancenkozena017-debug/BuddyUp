@@ -3,16 +3,11 @@ const path = require('path');
 
 const app = express();
 
-// Вказуємо папку з фронтендом
-const frontendPath = path.join(__dirname, 'index');
+// Папка з фронтендом
+const frontendPath = path.join(__dirname, 'buddy_up');
 
-// Віддаємо всі статичні файли з папки frontend
+// Віддаємо всі статичні файли з buddy_up
 app.use(express.static(frontendPath));
-
-// Для будь-якого GET запиту, який не збігається зі статичними файлами
-app.all(/.*/, (req, res) => {
-  res.sendFile(path.join(frontendPath, 'index.html'));
-});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Frontend running on port ${PORT}`));
