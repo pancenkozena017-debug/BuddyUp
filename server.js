@@ -3,15 +3,12 @@ const path = require('path');
 
 const app = express();
 
-// Папка з фронтендом
-const frontendPath = path.join(__dirname, 'buddy_up');
-
-// Віддаємо всі статичні файли з buddy_up
-app.use(express.static(frontendPath));
+// Віддаємо всі статичні файли з поточної папки (buddy_up)
+app.use(express.static(__dirname));
 
 // Корінь "/" віддає index.html
 app.get('/', (req, res) => {
-  res.sendFile(path.join(frontendPath, 'index/index.html'));
+  res.sendFile(path.join(__dirname, 'index/index.html'));
 });
 
 const PORT = process.env.PORT || 3000;
