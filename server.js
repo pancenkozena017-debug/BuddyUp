@@ -3,7 +3,11 @@ const path = require('path');
 
 const app = express();
 
-// Маршрути
+// Віддаємо всі CSS і JS з кореневих папок
+app.use('/css', express.static(path.join(__dirname, 'css')));
+app.use('/js', express.static(path.join(__dirname, 'js')));
+
+// HTML маршрути
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index/index.html'));
 });
@@ -17,7 +21,7 @@ app.get('/signup', (req, res) => {
 });
 
 // Використовуємо порт із Railway
-const PORT = process.env.PORT; // обов'язково з ENV
+const PORT = process.env.PORT;
 if (!PORT) {
   console.error('Error: process.env.PORT is not set');
   process.exit(1);
