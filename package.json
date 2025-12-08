@@ -1,11 +1,5 @@
 {
-    "name": "buddy_up_frontend",
-    "version": "1.0.0",
     "scripts": {
-        "start": "node server.js"
-    },
-    "dependencies": {
-        "express": "^5.2.1",
-        "serve": "^14.2.0"
-    }
+    "start": "node server.js"
+}
 }
