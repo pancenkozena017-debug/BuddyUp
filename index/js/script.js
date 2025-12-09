@@ -22,8 +22,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Оновлення картки
     function updateCardContent(cardElement, data) {
+        console.log(data);
+        console.log(document.querySelectorAll('#profileUni'));
+
         cardElement.querySelector('#profileName').textContent = `${data.name} ${data.surname}, ${getAge(data.birthday)}`;
-        cardElement.querySelector('#profileUni').textContent = data.university || '';
+        cardElement.querySelector('#profileUni').textContent = `Рейтинг ${data.rating}` || '';
         cardElement.querySelector('#profileDescription').textContent = `"${data.description || ''}"`;
         const img = cardElement.querySelector('#profileImage');
         if (img && data.photo) img.src = data.photo;
@@ -125,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
 
- 
+
         card.addEventListener('mousedown', startDrag);
         document.addEventListener('mousemove', drag);
         document.addEventListener('mouseup', endDrag);
@@ -134,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.addEventListener('touchmove', drag, { passive: true });
         document.addEventListener('touchend', endDrag);
 
- 
+
         card.querySelector('.button-like').addEventListener('click', () => handleButtonClick('like'));
         card.querySelector('.button-reject').addEventListener('click', () => handleButtonClick('reject'));
     }

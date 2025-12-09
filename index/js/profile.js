@@ -38,7 +38,7 @@ function formatUserData(data) {
 profileButton.addEventListener('click', () => {
     const userId = localStorage.getItem("userId");
     if (!userId) return alert("Користувач не знайдений у localStorage");
-    showProfile(userId, true); // true = це твій профіль
+    showProfile(userId, true); // true = профіль
 });
 
 
